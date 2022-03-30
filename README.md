@@ -21,24 +21,23 @@ I guess I'm not the only one with this idea. Please share your implementations o
 If you want to play around with the prototype in your implementation do:
 
 Integrate this snippet into your HTML:
-´´´
+```
 <nav class="nav-skip-links-wrapper" id="skiplinks" aria-label="Skip links">
-	<ul id="js-nav-skip-links"></ul>
+  <ul id="js-nav-skip-links"></ul>
 </nav>
-´´´
+``` 
 add the JavaScript to your project
-
-´´´
+```
 <script src="behaviour.js"></script>
-´´´
+```
 
 ## Open topics
-- [] #1
-[] Debug mode: Provide optional visible feedback if a label is missing
-[] Consider font-color: color-contrast()[^1]
-[] provide better (aria) labels for the skip links
-[] look for support to make it "right"; VanillaJS, performant code, ...
-[] iOS 15: VoiceOver doesn't read the aria label of the skip link nav landmark
+- [ ] #1
+- [ ] Debug mode: Provide optional visible feedback if a label is missing
+- [ ] Consider font-color: color-contrast()[^1]
+- [ ] provide better (aria) labels for the skip links
+- [ ] look for support to make it "right"; VanillaJS, performant code, ...
+- [ ] iOS 15: VoiceOver doesn't read the aria label of the skip link nav landmark
 
 
 [^1] see https://css-tricks.com/exploring-color-contrast-for-the-first-time/
