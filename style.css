@@ -1,0 +1,38 @@
+body {
+  font-family: sans-serif;
+}
+
+header,
+nav,
+main,
+aside,
+footer {
+  background-color: rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+  padding: 0.5rem;
+}
+
+
+#skiplinks {
+	position: absolute;
+	top: 0;
+	left: -9999px;
+	z-index: 9999;
+	height: 1px;
+	width: 100%;
+}
+
+#skiplinks a:focus,
+#skiplinks a:active {
+	position: absolute;
+	top: 0;
+	left: 9999px;
+	outline: 0 none;
+	/* your design */
+	width: 100%;
+	height: auto;
+	padding: .25rem 0;
+	background-color: #fff;
+	border: 2px solid black;
+	text-align: center;
+	text-decoration: none;
