@@ -37,10 +37,11 @@
         element.id = idGen.getId();
       }
 
-      var label =
+      var label = (
         element.getAttribute("aria-label") ||
         element.textContent.trim() ||
-        "No label";
+        "No label"
+      ).slice(0, 60);
 
       var a = document.createElement("a");
       a.href = "#" + element.id;
