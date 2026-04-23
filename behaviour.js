@@ -18,6 +18,15 @@
 
   ready(function () {
     var container = document.getElementById("js-nav-skip-links");
+
+    if (!container) {
+      console.warn(
+        "dynamic-skip-links: no #js-nav-skip-links element found. " +
+          "Add <ul id=\"js-nav-skip-links\"></ul> to your page."
+      );
+      return;
+    }
+
     var elements = document.querySelectorAll("header, nav, form, h1, h2");
 
     elements.forEach(function (element) {
