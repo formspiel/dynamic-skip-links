@@ -46,25 +46,23 @@ $(function () {
 		var elementText = getElementText;
 	  }
 
-	  if ($(this).hasAttr("id")) {
-		// console.log("true");
-	  } else {
-		var elementUniqueId = idGen.getId();
-
-		$(this).attr("id", elementUniqueId);
-		var $a = $("<a>").attr("href", "#" + elementUniqueId);
-		$a.text(
-		  "Go to " +
-			(typeof elementAriaLabel !== "undefined"
-			  ? elementAriaLabel
-			  : elementText != ""
-			  ? elementText
-			  : noContent) +
-			" (" +
-			elementName +
-			")"
-		);
-		$("#js-nav-skip-links").append($("<li>").append($a));
+	  if (!$(this).hasAttr("id")) {
+		$(this).attr("id", idGen.getId());
 	  }
+
+	  var elementUniqueId = $(this).attr("id");
+	  var $a = $("<a>").attr("href", "#" + elementUniqueId);
+	  $a.text(
+		"Go to " +
+		  (typeof elementAriaLabel !== "undefined"
+			? elementAriaLabel
+			: elementText != ""
+			? elementText
+			: noContent) +
+		  " (" +
+		  elementName +
+		  ")"
+	  );
+	  $("#js-nav-skip-links").append($("<li>").append($a));
 	});
 });
