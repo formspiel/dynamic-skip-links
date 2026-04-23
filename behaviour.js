@@ -52,10 +52,9 @@ $(function () {
 		var elementUniqueId = idGen.getId();
 
 		$(this).attr("id", elementUniqueId);
-		$("#js-nav-skip-links").append(
-		  '<li><a href="#' +
-			elementUniqueId +
-			'">Go to ' +
+		var $a = $("<a>").attr("href", "#" + elementUniqueId);
+		$a.text(
+		  "Go to " +
 			(typeof elementAriaLabel !== "undefined"
 			  ? elementAriaLabel
 			  : elementText != ""
@@ -63,9 +62,9 @@ $(function () {
 			  : noContent) +
 			" (" +
 			elementName +
-			")" +
-			"</a></li>"
+			")"
 		);
+		$("#js-nav-skip-links").append($("<li>").append($a));
 	  }
 	});
 });
