@@ -14,9 +14,9 @@ $.fn.hasAttr = function (name) {
   return this.attr(name) !== undefined;
 };
 
-// https://stackoverflow.com/questions/26203453/jquery-generate-unique-ids
-function Generator() {}
-Generator.prototype.rand = Math.floor(Math.random() * 26) + Date.now();
+function Generator() {
+  this.rand = Math.floor(Math.random() * 26) + Date.now();
+}
 Generator.prototype.getId = function () {
   return this.rand++;
 };
