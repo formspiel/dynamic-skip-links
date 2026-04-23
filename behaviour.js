@@ -1,49 +1,46 @@
-/*
- * It looks like jQuery but it's Cash 💰
- * You'll find the documentation on GitHub: https://github.com/fabiospampinato/cash#readme
- *
- * Thanks to Stephan M. for helping me out with JS
- *
- */
+(function () {
+  function ready(fn) {
+    if (document.readyState !== "loading") {
+      fn();
+    } else {
+      document.addEventListener("DOMContentLoaded", fn);
+    }
+  }
 
-/*
- * Helper Functions
- * - find an attribute
- */
-$.fn.hasAttr = function (name) {
-  return this.attr(name) !== undefined;
-};
+  function Generator() {
+    this.rand = Math.floor(Math.random() * 26) + Date.now();
+  }
+  Generator.prototype.getId = function () {
+    return this.rand++;
+  };
 
-function Generator() {
-  this.rand = Math.floor(Math.random() * 26) + Date.now();
-}
-Generator.prototype.getId = function () {
-  return this.rand++;
-};
+  var idGen = new Generator();
 
-var idGen = new Generator();
+  ready(function () {
+    var container = document.getElementById("js-nav-skip-links");
+    var elements = document.querySelectorAll("header, nav, form, h1, h2");
 
-// Skip link function
-$(function () {
-  /*
-   * Dynamic Skip Links
-   * looks for specific elements and builts a link list nav
-   */
+    elements.forEach(function (element) {
+      element.removeAttribute("title");
+      element.setAttribute("tabindex", "-1");
 
-  $("header,nav,form,h1,h2")
-	.removeAttr("title")
-	.attr("tabindex", "-1")
-	.each(function () {
-	  var elementName = $(this).get(0).tagName.toLowerCase();
-	  var label = $(this).attr("aria-label") || $(this).text() || "No label";
+      if (!element.id) {
+        element.id = idGen.getId();
+      }
 
-	  if (!$(this).hasAttr("id")) {
-		$(this).attr("id", idGen.getId());
-	  }
+      var label =
+        element.getAttribute("aria-label") ||
+        element.textContent.trim() ||
+        "No label";
 
-	  var elementUniqueId = $(this).attr("id");
-	  var $a = $("<a>").attr("href", "#" + elementUniqueId);
-	  $a.text("Go to " + label + " (" + elementName + ")");
-	  $("#js-nav-skip-links").append($("<li>").append($a));
-	});
-});
+      var a = document.createElement("a");
+      a.href = "#" + element.id;
+      a.textContent =
+        "Go to " + label + " (" + element.tagName.toLowerCase() + ")";
+
+      var li = document.createElement("li");
+      li.appendChild(a);
+      container.appendChild(li);
+    });
+  });
+})();
