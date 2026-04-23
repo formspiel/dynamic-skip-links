@@ -35,16 +35,7 @@ $(function () {
 	.attr("tabindex", "-1")
 	.each(function () {
 	  var elementName = $(this).get(0).tagName.toLowerCase();
-	  var getElementAriaLabel = $(this).attr("aria-label");
-	  var getElementText = $(this).text();
-
-	  var noContent = "No label";
-
-	  if ($(this).hasAttr("aria-label")) {
-		var elementAriaLabel = getElementAriaLabel;
-	  } else {
-		var elementText = getElementText;
-	  }
+	  var label = $(this).attr("aria-label") || $(this).text() || "No label";
 
 	  if (!$(this).hasAttr("id")) {
 		$(this).attr("id", idGen.getId());
@@ -52,17 +43,7 @@ $(function () {
 
 	  var elementUniqueId = $(this).attr("id");
 	  var $a = $("<a>").attr("href", "#" + elementUniqueId);
-	  $a.text(
-		"Go to " +
-		  (typeof elementAriaLabel !== "undefined"
-			? elementAriaLabel
-			: elementText != ""
-			? elementText
-			: noContent) +
-		  " (" +
-		  elementName +
-		  ")"
-	  );
+	  $a.text("Go to " + label + " (" + elementName + ")");
 	  $("#js-nav-skip-links").append($("<li>").append($a));
 	});
 });
