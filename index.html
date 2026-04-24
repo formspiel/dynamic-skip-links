@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Dynamic Skip Links</title>
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="skiplinks.css">
 </head>
 
 <body>
@@ -13,7 +14,7 @@
 
 	<header title="title" aria-label="I'm the header">
 		<div id="logo"></div>
-		<nav title="title" aria-label="Main">
+		<nav class="nav-main" title="title" aria-label="Main">
 			<ul>
 				<li><a href="#">Menu item 1</a></li>
 				<li><a href="#">Menu item 2</a></li>
@@ -22,35 +23,30 @@
 		</nav>
 
 		<form role="search">
-			<input type="search" aria-label="search text" size="20" />
-			<input type="submit" value="Search" />
+			<input type="search" aria-label="search text" size="20">
+			<input type="submit" value="Search">
 		</form>
 	</header>
 
 	<main title="title" aria-label="aria-label">
-		<h1>HTML Ipsum Presents</h1>
-		<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
-		<h2>Header Level 2</h2>
-		<ol>
-		<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-		<li>Aliquam tincidunt mauris eu risus.</li>
-		</ol>
-		<blockquote>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p>
-		</blockquote>
 		
-		<h3>Header Level 3</h3>
-		<ul>
-		<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-		<li>Aliquam tincidunt mauris eu risus.</li>
-		</ul>
+		<div class="widget widget-wrapper" role="group" aria-labelledby="headline-j7g3">
+			<h2 class="widget-header" id="headline-j7g3">Wrong: Title and Aria Label</h2>
+			<div class="">
+				<p>This is a bad example were a title attribute and an aria label are provided.</p>
+			</div>
+		</div>
 		
+		<div class="widget widget-wrapper" role="group" aria-labelledby="headline-a4f6">
+			<h2 class="widget-header" id="headline-a4f6">Wrong: Title and Aria Label</h2>
+			<div class="">
+				<p>This is a bad example were a title attribute and an aria label are provided.</p>
+			</div>
+		</div>
 	</main>
 	
 	<footer title="title">
-		
-		
-		<p>Put together by Andreas <a href="https://github.com/formspiel">@formspiel</a>. Please copy with pride!</p>
+		<p>Put together by <a href="https://github.com/formspiel">@formspiel</a>. Copy with pride!</p>
 	</footer>
 
 	<!-- Include Cash library https://github.com/fabiospampinato/cash -->

@@ -1,38 +1,122 @@
-body {
-  font-family: sans-serif;
+/*
+ * Design tokens
+ */
+
+:root {
+	/* your light theme colours */
+	color-scheme: light dark;
+
+	--height: 30vw;
+	--border-radius: .25rem;
+	
+	/* --font-base: sans-serif; */
+
+	--color-bg:     hsl(0, 0%, 94%);
+	--color-bg-box: hsl(0, 0%, 75%);
+	--color-text:   hsl(0, 0%, 16%);
+	--color-link:   hsl(0, 0%, 39%);
+	
+	--skiplink-color-bgr: hsl(300, 100%, 100%);
+	--skiplink-color-border: hsl(0, 0%, 0%);
 }
+
+@media (prefers-color-scheme: dark) {
+
+	:root {
+		/* your dark theme colours; overwrites the light theme colours */
+		--color-bg:     hsl(0, 0%, 20%);
+		--color-bg-box: hsl(0, 0%, 20%);
+		--color-text:   hsl(0, 0%, 85%);
+		--color-link:   hsl(0, 0%, 75%);
+	}
+}
+
+@media (forced-colors) {
+
+	:root {
+		/* your high contrast theme colours; overwrites the light and dark theme colours */
+		--color-bg:     Canvas;
+		--color-bg-box: Canvas;
+		--color-text:   CanvasText;
+		--color-link:   ActiveText;
+	}
+
+}
+
+/* ========== Styles ========== */
+
+* {
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+
+body {
+	font: normal 400 100%/1.4 sans-serif;
+	background-color: var(--color-bg);
+	margin: 0;
+	padding: 0;
+}
+
+.looks-like-h1 {}
+.looks-like-h2 {}
+.looks-like-h3 {}
+.looks-like-h4 {}
+.looks-like-h5 {}
+.looks-like-h6 {}
+
+header {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-template-rows: 1fr;
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+}
+
+	#logo {
+		grid-area: 1 / 1 / 2 / 2;
+		width: 2rem;
+		height: 2rem;
+		background-color: var(--color-text);
+		border-radius: var(--border-radius);
+	}
+	.nav-main {
+		grid-area: 1 / 2 / 2 / 8;
+	}
+	
+	.nav-main ul {
+		
+	}
+	.form[role = search] {
+		grid-area: 1 / 8 / 2 / 13;
+	}
 
 header,
 nav,
 main,
 aside,
 footer {
-  background-color: rgba(0, 0, 0, 0.1);
-  margin-top: 1rem;
   padding: 0.5rem;
+  border: 1px solid var(--skiplink-color-border);
 }
+
+@media (prefers-color-scheme: dark) {}
+@media (forced-colors) {}
 
 
 #skiplinks {
-	position: absolute;
-	top: 0;
-	left: -9999px;
-	z-index: 9999;
-	height: 1px;
-	width: 100%;
+	/* see skiplinks.css for mandatory styles */
 }
 
 #skiplinks a:focus,
 #skiplinks a:active {
-	position: absolute;
-	top: 0;
-	left: 9999px;
-	outline: 0 none;
-	/* your design */
-	width: 100%;
+	/* see skiplinks.css for mandatory styles */
+	display: block;
 	height: auto;
+	margin: .25rem;
 	padding: .25rem 0;
-	background-color: #fff;
-	border: 2px solid black;
+	background-color: var(--skiplink-color-bgr);
+	border: 2px solid var(--skiplink-color-border);
 	text-align: center;
 	text-decoration: none;
+	border-radius: var(--border-radius);
+}
