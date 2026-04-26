@@ -36,12 +36,16 @@
       element.setAttribute("tabindex", "-1");
 
       if (!element.id) {
-        element.id = idGen.getId();
+        element.id = "sl-" + idGen.getId();
       }
 
+      var headingTags = { H1: true, H2: true, H3: true, H4: true, H5: true, H6: true };
+      var labelledById = element.getAttribute("aria-labelledby");
+      var labelledByEl = labelledById && document.getElementById(labelledById);
       var label = (
         element.getAttribute("aria-label") ||
-        element.textContent.trim() ||
+        (labelledByEl && labelledByEl.textContent.trim()) ||
+        (headingTags[element.tagName] ? element.textContent.trim() : "") ||
         "No label"
       ).slice(0, 60);
 
