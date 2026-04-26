@@ -28,6 +28,8 @@
 		--color-bg-box: hsl(0, 0%, 20%);
 		--color-text:   hsl(0, 0%, 85%);
 		--color-link:   hsl(0, 0%, 75%);
+
+		--skiplink-color-bgr: hsl(270, 50%, 15%);
 	}
 }
 
