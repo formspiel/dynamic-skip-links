@@ -5,17 +5,21 @@
 #skiplinks {
 	position: absolute;
 	top: 0;
-	left: -9999px;
+	left: 0;
 	z-index: 9999;
-	height: 1px;
 	width: 100%;
 }
 
-#skiplinks a:focus,
-#skiplinks a:active {
+#skiplinks a {
 	position: absolute;
-	top: 0;
-	left: 9999px;
-	outline: 0 none;	
-	/* your design */
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+#skiplinks a:focus-visible,
+#skiplinks a:active {
+	/* your design — override in style.css */
 }

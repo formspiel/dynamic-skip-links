@@ -45,12 +45,20 @@
 		</div>
 	</main>
 	
+	<!-- Edge case demos --------------------------------------------------- -->
+	<!-- 1. h2 with an existing id: skip link should reuse it, not skip it -->
+	<h2 id="existing-id-section">Section with a pre-existing ID</h2>
+
+	<!-- 2. h2 with no aria-label and no text: label falls back to "No label" -->
+	<h2 aria-hidden="true"></h2>
+
+	<!-- 3. h2 whose text is intentionally long to show the 60-char truncation -->
+	<h2>This heading has a very long text that should be truncated in the generated skip link label</h2>
+
 	<footer title="title">
 		<p>Put together by <a href="https://github.com/formspiel">@formspiel</a>. Copy with pride!</p>
 	</footer>
 
-	<!-- Include Cash library https://github.com/fabiospampinato/cash -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/cash/8.1.0/cash.min.js"></script>
 	<script src="behaviour.js"></script>
 </body>
 </html>

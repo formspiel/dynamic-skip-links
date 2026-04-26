@@ -1,71 +1,56 @@
-/*
- * It looks like jQuery but it's Cash 💰
- * You'll find the documentation on GitHub: https://github.com/fabiospampinato/cash#readme
- *
- * Thanks to Stephan M. for helping me out with JS
- *
- */
+(function () {
+  function ready(fn) {
+    if (document.readyState !== "loading") {
+      fn();
+    } else {
+      document.addEventListener("DOMContentLoaded", fn);
+    }
+  }
 
-/*
- * Helper Functions
- * - find an attribute
- */
-$.fn.hasAttr = function (name) {
-  return this.attr(name) !== undefined;
-};
+  function Generator() {
+    this.rand = Math.floor(Math.random() * 26) + Date.now();
+  }
+  Generator.prototype.getId = function () {
+    return this.rand++;
+  };
 
-// https://stackoverflow.com/questions/26203453/jquery-generate-unique-ids
-function Generator() {}
-Generator.prototype.rand = Math.floor(Math.random() * 26) + Date.now();
-Generator.prototype.getId = function () {
-  return this.rand++;
-};
+  var idGen = new Generator();
 
-var idGen = new Generator();
+  ready(function () {
+    var container = document.getElementById("js-nav-skip-links");
 
-// Skip link function
-$(function () {
-  /*
-   * Dynamic Skip Links
-   * looks for specific elements and builts a link list nav
-   */
+    if (!container) {
+      console.warn(
+        "dynamic-skip-links: no #js-nav-skip-links element found. " +
+          "Add <ul id=\"js-nav-skip-links\"></ul> to your page."
+      );
+      return;
+    }
 
-  $("header,nav,form,h1,h2")
-	.removeAttr("title")
-	.attr("tabindex", "-1")
-	.each(function () {
-	  var elementName = $(this).get(0).tagName.toLowerCase();
-	  var getElementAriaLabel = $(this).attr("aria-label");
-	  var getElementText = $(this).text();
+    var elements = document.querySelectorAll("header, nav, form, h1, h2");
 
-	  var noContent = "No label";
+    elements.forEach(function (element) {
+      element.removeAttribute("title");
+      element.setAttribute("tabindex", "-1");
 
-	  if ($(this).hasAttr("aria-label")) {
-		var elementAriaLabel = getElementAriaLabel;
-	  } else {
-		var elementText = getElementText;
-	  }
+      if (!element.id) {
+        element.id = idGen.getId();
+      }
 
-	  if ($(this).hasAttr("id")) {
-		// console.log("true");
-	  } else {
-		var elementUniqueId = idGen.getId();
+      var label = (
+        element.getAttribute("aria-label") ||
+        element.textContent.trim() ||
+        "No label"
+      ).slice(0, 60);
 
-		$(this).attr("id", elementUniqueId);
-		$("#js-nav-skip-links").append(
-		  '<li><a href="#' +
-			elementUniqueId +
-			'">Go to ' +
-			(typeof elementAriaLabel !== "undefined"
-			  ? elementAriaLabel
-			  : elementText != ""
-			  ? elementText
-			  : noContent) +
-			" (" +
-			elementName +
-			")" +
-			"</a></li>"
-		);
-	  }
-	});
-});
+      var a = document.createElement("a");
+      a.href = "#" + element.id;
+      a.textContent =
+        "Go to " + label + " (" + element.tagName.toLowerCase() + ")";
+
+      var li = document.createElement("li");
+      li.appendChild(a);
+      container.appendChild(li);
+    });
+  });
+})();
