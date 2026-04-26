@@ -27,9 +27,11 @@
       return;
     }
 
-    var elements = document.querySelectorAll("header, nav, form, h1, h2");
+    var skipNav = container.closest("nav") || container.parentElement;
+    var elements = document.querySelectorAll("header, main, nav, form, h1, h2");
 
     elements.forEach(function (element) {
+      if (element === skipNav) { return; }
       element.removeAttribute("title");
       element.setAttribute("tabindex", "-1");
 
