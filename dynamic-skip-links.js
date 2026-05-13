@@ -58,17 +58,18 @@
       }
 
       var headingTags = { H1: true, H2: true, H3: true, H4: true, H5: true, H6: true };
+      var typeLabels = { HEADER: "Page header", MAIN: "Main content", NAV: "Navigation", FORM: "Form" };
       var labelledById = element.getAttribute("aria-labelledby");
       var labelledByEl = labelledById && document.getElementById(labelledById);
-      var label = (
+      var explicitLabel = (
         element.getAttribute("aria-label") ||
         (labelledByEl && labelledByEl.textContent.trim()) ||
-        (headingTags[element.tagName] ? element.textContent.trim() : "") ||
-        "No label"
-      ).slice(0, 60);
+        (headingTags[element.tagName] ? element.textContent.trim() : "")
+      );
+      var label = (explicitLabel || typeLabels[element.tagName] || "No label").slice(0, 60);
 
       if (config.debug) {
-        var missingLabel = label === "No label";
+        var missingLabel = !explicitLabel;
         element.setAttribute("data-dsl-debug", missingLabel ? "no-label" : "ok");
         if (missingLabel) {
           console.warn(
@@ -82,8 +83,9 @@
 
       var a = document.createElement("a");
       a.href = "#" + element.id;
-      a.textContent =
-        "Go to " + label + " (" + element.tagName.toLowerCase() + ")";
+      a.textContent = config.debug
+        ? "Go to " + label + " (" + element.tagName.toLowerCase() + ")"
+        : "Go to " + label;
 
       var li = document.createElement("li");
       li.appendChild(a);
