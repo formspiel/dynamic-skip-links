@@ -1,63 +1,69 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Dynamic Skip Links</title>
+	<title>Dynamic Skip Links — Demo</title>
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="skiplinks.css">
 </head>
 
 <body>
-	<nav class="nav-skip-links-wrapper" id="skiplinks" aria-label="Skip links">
+
+	<nav id="skiplinks" aria-label="Skip links">
 		<ul id="js-nav-skip-links"></ul>
 	</nav>
 
-	<header title="title" aria-label="I'm the header">
-		<div id="logo"></div>
-		<nav class="nav-main" title="title" aria-label="Main">
+	<header aria-label="Site header">
+		<a href="#" id="logo">DSL</a>
+		<nav class="nav-main" aria-label="Main navigation">
 			<ul>
-				<li><a href="#">Menu item 1</a></li>
-				<li><a href="#">Menu item 2</a></li>
-				<li><a href="#">Menu item 3</a></li>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Documentation</a></li>
+				<li><a href="#">Examples</a></li>
+				<li><a href="#">GitHub</a></li>
 			</ul>
 		</nav>
-
-		<form role="search">
-			<input type="search" aria-label="search text" size="20">
-			<input type="submit" value="Search">
+		<form role="search" aria-label="Site search">
+			<input type="search" placeholder="Search…">
+			<button type="submit">Search</button>
 		</form>
 	</header>
 
 	<main>
-		
-		<div class="widget widget-wrapper" role="group" aria-labelledby="headline-j7g3">
-			<h2 class="widget-header" id="headline-j7g3">Wrong: Title and Aria Label</h2>
-			<div class="">
-				<p>This is a bad example were a title attribute and an aria label are provided.</p>
-			</div>
-		</div>
-		
-		<div class="widget widget-wrapper" role="group" aria-labelledby="headline-a4f6">
-			<h2 class="widget-header" id="headline-a4f6">Wrong: Title and Aria Label</h2>
-			<div class="">
-				<p>This is a bad example were a title attribute and an aria label are provided.</p>
-			</div>
-		</div>
+		<h1>Dynamic Skip Links</h1>
+		<p class="lead">Press <kbd>Tab</kbd> to reveal a list of skip links generated from this page's landmarks and headings.</p>
+
+		<h2>What are skip links?</h2>
+		<p>A skip link is a visually hidden anchor that appears when focused. It lets keyboard and assistive-technology users bypass repeated content — like the header or navigation — and jump directly to the section they need.</p>
+		<p>Most implementations provide a single "Skip to main content" link. This library makes them <em>dynamic</em>: it scans the page for landmarks and headings and builds the full list automatically.</p>
+
+		<h2>How to use it</h2>
+		<p>Add the skip links container before any other content and include the script. Everything else is automatic.</p>
+		<pre><code>&lt;nav id="skiplinks" aria-label="Skip links"&gt;
+  &lt;ul id="js-nav-skip-links"&gt;&lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;!-- your page content --&gt;
+
+&lt;script src="behaviour.js"&gt;&lt;/script&gt;</code></pre>
+
+		<h2>Label resolution</h2>
+		<p>Each skip link label is resolved in this order:</p>
+		<ol>
+			<li><code>aria-label</code> on the element</li>
+			<li>The text of the element referenced by <code>aria-labelledby</code></li>
+			<li>The element's own text content (headings only)</li>
+			<li>Fallback: <em>No label</em></li>
+		</ol>
+		<p>Labels longer than 60 characters are trimmed automatically.</p>
+
+		<h2>Accessibility notes</h2>
+		<p>Target elements receive <code>tabindex="-1"</code> so keyboard focus lands correctly when a skip link is activated. The skip links navigation uses <code>aria-label="Skip links"</code> to identify itself as a distinct landmark to screen readers.</p>
 	</main>
-	
-	<!-- Edge case demos --------------------------------------------------- -->
-	<!-- 1. h2 with an existing id: skip link should reuse it, not skip it -->
-	<h2 id="existing-id-section">Section with a pre-existing ID</h2>
-
-	<!-- 2. h2 with no aria-label and no text: label falls back to "No label" -->
-	<h2 aria-hidden="true"></h2>
-
-	<!-- 3. h2 whose text is intentionally long to show the 60-char truncation -->
-	<h2>This heading has a very long text that should be truncated in the generated skip link label</h2>
 
 	<footer>
-		<p>Put together by <a href="https://github.com/formspiel">@formspiel</a>. Copy with pride!</p>
+		<p>Built by <a href="https://github.com/formspiel">@formspiel</a>. Copy with pride.</p>
 	</footer>
 
 	<script src="behaviour.js"></script>
