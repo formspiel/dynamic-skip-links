@@ -10,11 +10,24 @@
    * selector     CSS selector for the page elements that become link targets.
    * debug        Highlight targets and warn about missing labels in devtools.
    *              Always false in production.
+   * navLabel     aria-label for the injected skip links nav landmark.
+   * labelPrefix  Text prepended to every skip link label.
+   * typeLabels   Fallback labels for landmark elements that have no aria-label.
+   * noLabel      Last-resort label when no other label can be resolved.
    */
   var config = Object.assign({
     containerId: "js-nav-skip-links",
     selector: "header, main, nav, form, h1, h2",
-    debug: false
+    debug: false,
+    navLabel: "Skip links",
+    labelPrefix: "Go to",
+    typeLabels: {
+      HEADER: "Page header",
+      MAIN:   "Main content",
+      NAV:    "Navigation",
+      FORM:   "Form"
+    },
+    noLabel: "No label"
   }, window.dynamicSkipLinksConfig || {});
 
   function ready(fn) {
@@ -35,21 +48,20 @@
   var idGen = new Generator();
 
   ready(function () {
-    var container = document.getElementById(config.containerId);
+    var nav = document.createElement("nav");
+    nav.id = "skiplinks";
+    nav.setAttribute("aria-label", config.navLabel);
 
-    if (!container) {
-      console.warn(
-        "dynamic-skip-links: no #" + config.containerId + " element found. " +
-          "Add <ul id=\"" + config.containerId + "\"></ul> to your page."
-      );
-      return;
-    }
+    var container = document.createElement("ul");
+    container.id = config.containerId;
 
-    var skipNav = container.closest("nav") || container.parentElement;
+    nav.appendChild(container);
+    document.body.insertBefore(nav, document.body.firstChild);
+
     var elements = document.querySelectorAll(config.selector);
 
     elements.forEach(function (element) {
-      if (element === skipNav) { return; }
+      if (element === nav) { return; }
       element.removeAttribute("title");
       element.setAttribute("tabindex", "-1");
 
@@ -60,15 +72,15 @@
       var headingTags = { H1: true, H2: true, H3: true, H4: true, H5: true, H6: true };
       var labelledById = element.getAttribute("aria-labelledby");
       var labelledByEl = labelledById && document.getElementById(labelledById);
-      var label = (
+      var explicitLabel = (
         element.getAttribute("aria-label") ||
         (labelledByEl && labelledByEl.textContent.trim()) ||
-        (headingTags[element.tagName] ? element.textContent.trim() : "") ||
-        "No label"
-      ).slice(0, 60);
+        (headingTags[element.tagName] ? element.textContent.trim() : "")
+      );
+      var label = (explicitLabel || config.typeLabels[element.tagName] || config.noLabel).slice(0, 60);
 
       if (config.debug) {
-        var missingLabel = label === "No label";
+        var missingLabel = !explicitLabel;
         element.setAttribute("data-dsl-debug", missingLabel ? "no-label" : "ok");
         if (missingLabel) {
           console.warn(
@@ -82,8 +94,9 @@
 
       var a = document.createElement("a");
       a.href = "#" + element.id;
-      a.textContent =
-        "Go to " + label + " (" + element.tagName.toLowerCase() + ")";
+      a.textContent = config.debug
+        ? config.labelPrefix + " " + label + " (" + element.tagName.toLowerCase() + ")"
+        : config.labelPrefix + " " + label;
 
       var li = document.createElement("li");
       li.appendChild(a);

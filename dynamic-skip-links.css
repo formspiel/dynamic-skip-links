@@ -39,17 +39,18 @@
 
 /*
  * Debug mode — visible only when config.debug = true in dynamic-skip-links.js.
- * Blue outline = target element has a valid label.
- * Orange outline = label is missing; check this element's aria-label.
+ * Blue = target element has a valid label.
+ * Orange = label is missing; check this element's aria-label.
+ *
+ * Uses inset box-shadow so each element's indicator stays within its own
+ * bounds — nested elements (e.g. <nav> inside <main>) remain visually distinct.
  */
 [data-dsl-debug="ok"] {
-	outline: 2px dashed hsl(200, 100%, 45%) !important;
-	outline-offset: 3px;
+	box-shadow: inset 0 0 0 3px hsl(200, 100%, 45%) !important;
 }
 
 [data-dsl-debug="no-label"] {
-	outline: 2px dashed hsl(30, 100%, 50%) !important;
-	outline-offset: 3px;
+	box-shadow: inset 0 0 0 3px hsl(30, 100%, 50%) !important;
 }
 
 /* revealed — undoes every hiding rule above; triggered by keyboard focus */

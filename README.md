@@ -22,17 +22,9 @@ The module ships two files. Both are required.
 <script src="dynamic-skip-links.js"></script>
 ```
 
-### 2. Add the HTML snippet
+The script injects the skip links nav automatically. No HTML snippet required.
 
-Place this as the **first element inside `<body>`**:
-
-```html
-<nav id="skiplinks" aria-label="Skip links">
-  <ul id="js-nav-skip-links"></ul>
-</nav>
-```
-
-### 3. Style the revealed links
+### 2. Style the revealed links
 
 `dynamic-skip-links.css` deliberately ships with no visual design. Add this to your own stylesheet and adjust to match your project:
 
@@ -107,8 +99,46 @@ The available properties and their defaults:
   selector: "header, main, nav, form, h1, h2",
 
   // highlight targets and warn about missing labels (never true in production)
-  debug: false
+  debug: false,
+
+  // aria-label for the injected skip links nav landmark
+  navLabel: "Skip links",
+
+  // text prepended to every skip link
+  labelPrefix: "Go to",
+
+  // fallback labels for landmark elements that have no aria-label
+  typeLabels: {
+    HEADER: "Page header",
+    MAIN:   "Main content",
+    NAV:    "Navigation",
+    FORM:   "Form"
+  },
+
+  // last-resort label when no other label can be resolved
+  noLabel: "No label"
 }
+```
+
+### Translating to another language
+
+All user-facing strings are in the config, so translation requires no changes to the module file:
+
+```html
+<script>
+  window.dynamicSkipLinksConfig = {
+    navLabel:    "Seitennavigation",
+    labelPrefix: "Gehe zu",
+    typeLabels: {
+      HEADER: "Seitenkopf",
+      MAIN:   "Hauptinhalt",
+      NAV:    "Navigation",
+      FORM:   "Formular"
+    },
+    noLabel: "Kein Label"
+  };
+</script>
+<script src="dynamic-skip-links.js"></script>
 ```
 
 ---
