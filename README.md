@@ -22,17 +22,9 @@ The module ships two files. Both are required.
 <script src="dynamic-skip-links.js"></script>
 ```
 
-### 2. Add the HTML snippet
+The script injects the skip links nav automatically. No HTML snippet required.
 
-Place this as the **first element inside `<body>`**:
-
-```html
-<nav id="skiplinks" aria-label="Skip links">
-  <ul id="js-nav-skip-links"></ul>
-</nav>
-```
-
-### 3. Style the revealed links
+### 2. Style the revealed links
 
 `dynamic-skip-links.css` deliberately ships with no visual design. Add this to your own stylesheet and adjust to match your project:
 
@@ -109,6 +101,9 @@ The available properties and their defaults:
   // highlight targets and warn about missing labels (never true in production)
   debug: false,
 
+  // aria-label for the injected skip links nav landmark
+  navLabel: "Skip links",
+
   // text prepended to every skip link
   labelPrefix: "Go to",
 
@@ -132,6 +127,7 @@ All user-facing strings are in the config, so translation requires no changes to
 ```html
 <script>
   window.dynamicSkipLinksConfig = {
+    navLabel:    "Seitennavigation",
     labelPrefix: "Gehe zu",
     typeLabels: {
       HEADER: "Seitenkopf",
