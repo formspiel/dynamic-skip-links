@@ -189,17 +189,10 @@ footer {
 	font-size: .9rem;
 }
 
-/* ===== Skip links (reveal styles — mandatory rules are in skiplinks.css) ===== */
+/* ===== Skip links — demo design layer (mandatory rules are in skiplinks.css) ===== */
 
 #skiplinks a:focus-visible,
 #skiplinks a:active {
-	position: static;
-	display: block;
-	width: 100%;
-	height: auto;
-	overflow: visible;
-	clip-path: none;
-	white-space: normal;
 	padding: .5rem 1rem;
 	background-color: var(--skiplink-color-bgr);
 	border: 2px solid var(--skiplink-color-border);

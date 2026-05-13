@@ -1,43 +1,126 @@
 # Dynamic Skip Links
-Provide better Skip link to make your applications (and complex websites) more accessible
 
-With this repository I wanna share a **prototype** of how I see Skip links that provide value to users who rely on it and value for people for pro-users.
+A small, dependency-free module that scans a page for landmarks and headings and builds a skip link list automatically, giving keyboard and assistive-technology users a fast way to jump between sections.
 
-## What are Skip Links?
-tbd
+---
 
-## Features
-It's dynamic! Choose a type of content you want to create a TOC from
-Labels! Make sure a label is visible. Labels are crucial for people who rely on assistive tech
+## Integration
 
-## Let's talk about F6
-tbd for v2
+The module ships two files. Both are required.
 
-## Who is using it
-I guess I'm not the only one with this idea. Please share your implementations of Skip links
+| File | Purpose |
+|---|---|
+| `behaviour.js` | Scans the page and generates the skip links |
+| `skiplinks.css` | Mandatory mechanics: hides links off-screen and reveals them on focus |
 
-## How to use it
+### 1. Include the module files
 
-If you want to play around with the prototype in your implementation do:
+```html
+<link rel="stylesheet" href="skiplinks.css">
 
-Integrate this snippet into your HTML:
-```
-<nav class="nav-skip-links-wrapper" id="skiplinks" aria-label="Skip links">
-  <ul id="js-nav-skip-links"></ul>
-</nav>
-``` 
-add the JavaScript to your project
-```
+<!-- before </body> -->
 <script src="behaviour.js"></script>
 ```
 
-## Open topics
-- [ ] #1
-- [ ] Debug mode: Provide optional visible feedback if a label is missing
-- [ ] Consider font-color: color-contrast()[^1]
-- [ ] provide better (aria) labels for the skip links
-- [ ] look for support to make it "right"; VanillaJS, performant code, ...
-- [ ] iOS 15: VoiceOver doesn't read the aria label of the skip link nav landmark
+### 2. Add the HTML snippet
 
+Place this as the **first element inside `<body>`**:
 
-[^1] see https://css-tricks.com/exploring-color-contrast-for-the-first-time/
+```html
+<nav id="skiplinks" aria-label="Skip links">
+  <ul id="js-nav-skip-links"></ul>
+</nav>
+```
+
+### 3. Style the revealed links
+
+`skiplinks.css` deliberately ships with no visual design. Add this to your own stylesheet and adjust to match your project:
+
+```css
+#skiplinks a:focus-visible,
+#skiplinks a:active {
+  padding: .5rem 1rem;
+  background-color: #fff;
+  border: 2px solid #000;
+  text-align: center;
+  text-decoration: none;
+}
+```
+
+That is the complete integration.
+
+---
+
+## Customisation
+
+### Visual design
+
+The only rule you need to style is `#skiplinks a:focus-visible`. The mandatory `skiplinks.css` handles the mechanical reveal (undoing the off-screen hiding); your stylesheet adds the colours, spacing, and typography on top via the normal cascade.
+
+```css
+/* example — adapt to your design system */
+#skiplinks a:focus-visible,
+#skiplinks a:active {
+  padding: .75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: var(--color-brand);
+  color: #fff;
+  border: 3px solid #fff;
+  border-radius: .25rem;
+  text-align: center;
+  text-decoration: none;
+}
+```
+
+### Stacking order
+
+If the default `z-index` conflicts with your layout, override the CSS custom property — no need to edit the module file:
+
+```css
+:root {
+  --skiplinks-z-index: 500;
+}
+```
+
+---
+
+## Configuration
+
+Two values at the top of `behaviour.js` can be changed if the default IDs conflict with your project:
+
+```js
+var config = {
+  // id of the <ul> that receives the generated links
+  containerId: "js-nav-skip-links",
+
+  // CSS selector for elements that become skip link targets
+  selector: "header, main, nav, form, h1, h2"
+};
+```
+
+---
+
+## How labels are resolved
+
+Each skip link label is derived from the target element using this priority order:
+
+1. `aria-label` attribute on the element
+2. Text content of the element referenced by `aria-labelledby`
+3. The element's own text content (headings only — `h1`–`h6`)
+4. Fallback: *No label*
+
+Labels longer than 60 characters are trimmed automatically.
+
+Use `aria-label` on landmark elements (`header`, `nav`, `main`, `form`) to ensure they always produce a meaningful skip link, regardless of content.
+
+```html
+<nav aria-label="Main navigation">…</nav>
+<form role="search" aria-label="Site search">…</form>
+```
+
+---
+
+## Demo
+
+Open `index.html` in a browser. Press `Tab` to reveal the skip link list. The demo page uses an additional `style.css` file to apply a visual design — this file is **not part of the module** and is not required in your project.
