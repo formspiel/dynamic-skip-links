@@ -4,8 +4,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Dynamic Skip Links — Demo</title>
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="skiplinks.css">
+	<link rel="stylesheet" href="demo.css">
+	<link rel="stylesheet" href="dynamic-skip-links.css">
 </head>
 
 <body>
@@ -41,11 +41,11 @@
 		<h2>How to integrate</h2>
 
 		<h3>Step 1 — Include the module files</h3>
-		<p>Copy <code>behaviour.js</code> and <code>skiplinks.css</code> into your project. These are the only two files the module requires.</p>
-		<pre><code>&lt;link rel="stylesheet" href="skiplinks.css"&gt;
+		<p>Copy <code>dynamic-skip-links.js</code> and <code>dynamic-skip-links.css</code> into your project. These are the only two files the module requires.</p>
+		<pre><code>&lt;link rel="stylesheet" href="dynamic-skip-links.css"&gt;
 
 &lt;!-- before &lt;/body&gt; --&gt;
-&lt;script src="behaviour.js"&gt;&lt;/script&gt;</code></pre>
+&lt;script src="dynamic-skip-links.js"&gt;&lt;/script&gt;</code></pre>
 
 		<h3>Step 2 — Add the HTML snippet</h3>
 		<p>Place this as the <strong>first element inside <code>&lt;body&gt;</code></strong>:</p>
@@ -54,7 +54,7 @@
 &lt;/nav&gt;</code></pre>
 
 		<h3>Step 3 — Style the revealed links</h3>
-		<p><code>skiplinks.css</code> handles hiding and revealing the links mechanically but applies no visual design. Add this to your own stylesheet and adjust to match your project:</p>
+		<p><code>dynamic-skip-links.css</code> handles hiding and revealing the links mechanically but applies no visual design. Add this to your own stylesheet and adjust to match your project:</p>
 		<pre><code>#skiplinks a:focus-visible,
 #skiplinks a:active {
   padding: .5rem 1rem;
@@ -66,7 +66,7 @@
 		<p>That is the entire integration. No other changes to your HTML or CSS are needed.</p>
 
 		<h2>Configuration</h2>
-		<p>Two values at the top of <code>behaviour.js</code> can be changed if the default IDs conflict with your project:</p>
+		<p>Two values at the top of <code>dynamic-skip-links.js</code> can be changed if the default IDs conflict with your project:</p>
 		<pre><code>var config = {
   // id of the &lt;ul&gt; that receives the generated links
   containerId: "js-nav-skip-links",
@@ -94,6 +94,6 @@
 		<p>Built by <a href="https://github.com/formspiel">@formspiel</a>. Copy with pride.</p>
 	</footer>
 
-	<script src="behaviour.js"></script>
+	<script src="dynamic-skip-links.js"></script>
 </body>
 </html>

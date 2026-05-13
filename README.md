@@ -10,16 +10,16 @@ The module ships two files. Both are required.
 
 | File | Purpose |
 |---|---|
-| `behaviour.js` | Scans the page and generates the skip links |
-| `skiplinks.css` | Mandatory mechanics: hides links off-screen and reveals them on focus |
+| `dynamic-skip-links.js` | Scans the page and generates the skip links |
+| `dynamic-skip-links.css` | Mandatory mechanics: hides links off-screen and reveals them on focus |
 
 ### 1. Include the module files
 
 ```html
-<link rel="stylesheet" href="skiplinks.css">
+<link rel="stylesheet" href="dynamic-skip-links.css">
 
 <!-- before </body> -->
-<script src="behaviour.js"></script>
+<script src="dynamic-skip-links.js"></script>
 ```
 
 ### 2. Add the HTML snippet
@@ -34,7 +34,7 @@ Place this as the **first element inside `<body>`**:
 
 ### 3. Style the revealed links
 
-`skiplinks.css` deliberately ships with no visual design. Add this to your own stylesheet and adjust to match your project:
+`dynamic-skip-links.css` deliberately ships with no visual design. Add this to your own stylesheet and adjust to match your project:
 
 ```css
 #skiplinks a:focus-visible,
@@ -55,7 +55,7 @@ That is the complete integration.
 
 ### Visual design
 
-The only rule you need to style is `#skiplinks a:focus-visible`. The mandatory `skiplinks.css` handles the mechanical reveal (undoing the off-screen hiding); your stylesheet adds the colours, spacing, and typography on top via the normal cascade.
+The only rule you need to style is `#skiplinks a:focus-visible`. The mandatory `dynamic-skip-links.css` handles the mechanical reveal (undoing the off-screen hiding); your stylesheet adds the colours, spacing, and typography on top via the normal cascade.
 
 ```css
 /* example — adapt to your design system */
@@ -87,7 +87,7 @@ If the default `z-index` conflicts with your layout, override the CSS custom pro
 
 ## Configuration
 
-Two values at the top of `behaviour.js` can be changed if the default IDs conflict with your project:
+Two values at the top of `dynamic-skip-links.js` can be changed if the default IDs conflict with your project:
 
 ```js
 var config = {
@@ -123,4 +123,4 @@ Use `aria-label` on landmark elements (`header`, `nav`, `main`, `form`) to ensur
 
 ## Demo
 
-Open `index.html` in a browser. Press `Tab` to reveal the skip link list. The demo page uses an additional `style.css` file to apply a visual design — this file is **not part of the module** and is not required in your project.
+Open `index.html` in a browser. Press `Tab` to reveal the skip link list. The demo page uses an additional `demo.css` file to apply a visual design — this file is **not part of the module** and is not required in your project.
