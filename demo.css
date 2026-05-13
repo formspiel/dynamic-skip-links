@@ -291,13 +291,13 @@ footer {
 .badge--blue {
 	background: hsl(200, 80%, 92%);
 	color: hsl(200, 100%, 22%);
-	outline: 1.5px dashed hsl(200, 100%, 45%);
+	box-shadow: inset 0 0 0 2px hsl(200, 100%, 45%);
 }
 
 .badge--orange {
 	background: hsl(30, 100%, 92%);
 	color: hsl(30, 100%, 22%);
-	outline: 1.5px dashed hsl(30, 100%, 50%);
+	box-shadow: inset 0 0 0 2px hsl(30, 100%, 50%);
 }
 
 @media (prefers-color-scheme: dark) {
