@@ -87,19 +87,28 @@ If the default `z-index` conflicts with your layout, override the CSS custom pro
 
 ## Configuration
 
-Three values at the top of `dynamic-skip-links.js` can be changed:
+Override any value without editing the module file by declaring `window.dynamicSkipLinksConfig` before the script tag:
+
+```html
+<script>
+  window.dynamicSkipLinksConfig = { debug: true };
+</script>
+<script src="dynamic-skip-links.js"></script>
+```
+
+The available properties and their defaults:
 
 ```js
-var config = {
+{
   // id of the <ul> that receives the generated links
   containerId: "js-nav-skip-links",
 
   // CSS selector for elements that become skip link targets
   selector: "header, main, nav, form, h1, h2",
 
-  // enable debug mode during development (always false in production)
+  // highlight targets and warn about missing labels (never true in production)
   debug: false
-};
+}
 ```
 
 ---

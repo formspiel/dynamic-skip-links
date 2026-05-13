@@ -97,17 +97,38 @@ header, main, footer {
 header {
 	display: flex;
 	align-items: center;
-	gap: var(--space);
+	flex-wrap: wrap;
+	gap: .5rem var(--space);
 	padding-block: .75rem;
 	border-bottom: 1px solid var(--color-border);
 }
 
 #logo {
+	display: inline-flex;
+	align-items: center;
+	gap: .4em;
 	font-weight: 700;
-	font-size: 1.1rem;
+	font-size: 1rem;
 	text-decoration: none;
 	color: var(--color-text);
 	flex-shrink: 0;
+}
+
+.logo-key {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.6em;
+	height: 1.4em;
+	border: 1.5px solid currentColor;
+	border-radius: .25em;
+	font-size: .9em;
+	font-weight: 400;
+	opacity: .75;
+}
+
+.nav-main {
+	flex: 1 1 auto;
 }
 
 .nav-main ul {
@@ -131,6 +152,7 @@ form[role="search"] {
 	display: flex;
 	gap: .5rem;
 	margin-left: auto;
+	flex-shrink: 0;
 }
 
 form[role="search"] input {
@@ -139,6 +161,7 @@ form[role="search"] input {
 	border-radius: var(--border-radius);
 	background-color: var(--color-surface);
 	color: var(--color-text);
+	min-width: 0;
 }
 
 form[role="search"] button {
@@ -148,6 +171,7 @@ form[role="search"] button {
 	background-color: var(--color-surface);
 	color: var(--color-text);
 	cursor: pointer;
+	white-space: nowrap;
 }
 
 form[role="search"] button:hover {
@@ -189,7 +213,99 @@ footer {
 	font-size: .9rem;
 }
 
-/* ===== Skip links — demo design layer (mandatory rules are in skiplinks.css) ===== */
+/* ===== Demo: inline nav and form examples ===== */
+
+.demo-nav ul {
+	list-style: none;
+	margin: 0;
+	padding: .75rem 0;
+	display: flex;
+	flex-direction: column;
+	gap: .25rem;
+}
+
+.demo-form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .5rem;
+	padding: .75rem 1rem;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+}
+
+.demo-form input {
+	padding: .3rem .6rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	background-color: var(--color-bg);
+	color: var(--color-text);
+}
+
+.demo-form button {
+	padding: .3rem .75rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	cursor: pointer;
+}
+
+/* ===== Debug notice ===== */
+
+.debug-notice {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .35rem .6rem;
+	padding: .75rem 1rem;
+	margin-bottom: 2rem;
+	background-color: hsl(45, 100%, 94%);
+	border-left: 3px solid hsl(45, 100%, 42%);
+	border-radius: 0 var(--border-radius) var(--border-radius) 0;
+	font-size: .875rem;
+}
+
+@media (prefers-color-scheme: dark) {
+	.debug-notice {
+		background-color: hsl(45, 20%, 16%);
+		border-left-color: hsl(45, 80%, 50%);
+	}
+}
+
+.badge {
+	display: inline-block;
+	padding: .1em .45em;
+	border-radius: .2em;
+	font-size: .85em;
+	font-weight: 600;
+}
+
+.badge--blue {
+	background: hsl(200, 80%, 92%);
+	color: hsl(200, 100%, 22%);
+	outline: 1.5px dashed hsl(200, 100%, 45%);
+}
+
+.badge--orange {
+	background: hsl(30, 100%, 92%);
+	color: hsl(30, 100%, 22%);
+	outline: 1.5px dashed hsl(30, 100%, 50%);
+}
+
+@media (prefers-color-scheme: dark) {
+	.badge--blue {
+		background: hsl(200, 40%, 18%);
+		color: hsl(200, 80%, 72%);
+	}
+	.badge--orange {
+		background: hsl(30, 40%, 18%);
+		color: hsl(30, 80%, 72%);
+	}
+}
+
+/* ===== Skip links — demo design layer (mandatory rules are in dynamic-skip-links.css) ===== */
 
 #skiplinks a:focus-visible,
 #skiplinks a:active {

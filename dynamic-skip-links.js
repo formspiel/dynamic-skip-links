@@ -1,17 +1,21 @@
 (function () {
   /*
-   * Configuration — the only values you may need to change.
+   * Configuration — defaults. Override any value without editing this file by
+   * declaring window.dynamicSkipLinksConfig before the script tag, e.g.:
+   *
+   *   <script>window.dynamicSkipLinksConfig = { debug: true };</script>
+   *   <script src="dynamic-skip-links.js"></script>
    *
    * containerId  Id of the <ul> element that receives the generated links.
    * selector     CSS selector for the page elements that become link targets.
-   * debug        Set to true during development to highlight targets and warn
-   *              about missing labels. Always false in production.
+   * debug        Highlight targets and warn about missing labels in devtools.
+   *              Always false in production.
    */
-  var config = {
+  var config = Object.assign({
     containerId: "js-nav-skip-links",
     selector: "header, main, nav, form, h1, h2",
     debug: false
-  };
+  }, window.dynamicSkipLinksConfig || {});
 
   function ready(fn) {
     if (document.readyState !== "loading") {
