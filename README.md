@@ -87,7 +87,7 @@ If the default `z-index` conflicts with your layout, override the CSS custom pro
 
 ## Configuration
 
-Two values at the top of `dynamic-skip-links.js` can be changed if the default IDs conflict with your project:
+Three values at the top of `dynamic-skip-links.js` can be changed:
 
 ```js
 var config = {
@@ -95,9 +95,32 @@ var config = {
   containerId: "js-nav-skip-links",
 
   // CSS selector for elements that become skip link targets
-  selector: "header, main, nav, form, h1, h2"
+  selector: "header, main, nav, form, h1, h2",
+
+  // enable debug mode during development (always false in production)
+  debug: false
 };
 ```
+
+---
+
+## Debug mode
+
+Set `config.debug = true` during development to surface labelling problems before they reach production.
+
+**What it does:**
+
+- Adds a visible outline to every element that becomes a skip link target
+  - **Blue** — element has a valid label
+  - **Orange** — label is missing; the skip link will fall back to *No label*
+- Logs a `console.warn` for each missing label, naming the element by tag and id
+
+**Example warning:**
+```
+dynamic-skip-links: missing label on <nav id="sl-...">. Add an aria-label attribute to provide a meaningful skip link.
+```
+
+Set `debug` back to `false` before shipping. No outlines, no warnings, zero output.
 
 ---
 
