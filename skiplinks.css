@@ -2,6 +2,12 @@
  * mandatory styles to make it work
  */
 
+#skiplinks ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
 #skiplinks {
 	position: absolute;
 	top: 0;
