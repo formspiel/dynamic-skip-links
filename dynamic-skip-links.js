@@ -10,11 +10,22 @@
    * selector     CSS selector for the page elements that become link targets.
    * debug        Highlight targets and warn about missing labels in devtools.
    *              Always false in production.
+   * labelPrefix  Text prepended to every skip link label.
+   * typeLabels   Fallback labels for landmark elements that have no aria-label.
+   * noLabel      Last-resort label when no other label can be resolved.
    */
   var config = Object.assign({
     containerId: "js-nav-skip-links",
     selector: "header, main, nav, form, h1, h2",
-    debug: false
+    debug: false,
+    labelPrefix: "Go to",
+    typeLabels: {
+      HEADER: "Page header",
+      MAIN:   "Main content",
+      NAV:    "Navigation",
+      FORM:   "Form"
+    },
+    noLabel: "No label"
   }, window.dynamicSkipLinksConfig || {});
 
   function ready(fn) {
@@ -58,7 +69,6 @@
       }
 
       var headingTags = { H1: true, H2: true, H3: true, H4: true, H5: true, H6: true };
-      var typeLabels = { HEADER: "Page header", MAIN: "Main content", NAV: "Navigation", FORM: "Form" };
       var labelledById = element.getAttribute("aria-labelledby");
       var labelledByEl = labelledById && document.getElementById(labelledById);
       var explicitLabel = (
@@ -66,7 +76,7 @@
         (labelledByEl && labelledByEl.textContent.trim()) ||
         (headingTags[element.tagName] ? element.textContent.trim() : "")
       );
-      var label = (explicitLabel || typeLabels[element.tagName] || "No label").slice(0, 60);
+      var label = (explicitLabel || config.typeLabels[element.tagName] || config.noLabel).slice(0, 60);
 
       if (config.debug) {
         var missingLabel = !explicitLabel;
@@ -84,8 +94,8 @@
       var a = document.createElement("a");
       a.href = "#" + element.id;
       a.textContent = config.debug
-        ? "Go to " + label + " (" + element.tagName.toLowerCase() + ")"
-        : "Go to " + label;
+        ? config.labelPrefix + " " + label + " (" + element.tagName.toLowerCase() + ")"
+        : config.labelPrefix + " " + label;
 
       var li = document.createElement("li");
       li.appendChild(a);

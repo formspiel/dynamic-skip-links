@@ -107,8 +107,42 @@ The available properties and their defaults:
   selector: "header, main, nav, form, h1, h2",
 
   // highlight targets and warn about missing labels (never true in production)
-  debug: false
+  debug: false,
+
+  // text prepended to every skip link
+  labelPrefix: "Go to",
+
+  // fallback labels for landmark elements that have no aria-label
+  typeLabels: {
+    HEADER: "Page header",
+    MAIN:   "Main content",
+    NAV:    "Navigation",
+    FORM:   "Form"
+  },
+
+  // last-resort label when no other label can be resolved
+  noLabel: "No label"
 }
+```
+
+### Translating to another language
+
+All user-facing strings are in the config, so translation requires no changes to the module file:
+
+```html
+<script>
+  window.dynamicSkipLinksConfig = {
+    labelPrefix: "Gehe zu",
+    typeLabels: {
+      HEADER: "Seitenkopf",
+      MAIN:   "Hauptinhalt",
+      NAV:    "Navigation",
+      FORM:   "Formular"
+    },
+    noLabel: "Kein Label"
+  };
+</script>
+<script src="dynamic-skip-links.js"></script>
 ```
 
 ---
