@@ -4,8 +4,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Dynamic Skip Links — Demo</title>
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="skiplinks.css">
+	<link rel="stylesheet" href="demo.css">
+	<link rel="stylesheet" href="dynamic-skip-links.css">
 </head>
 
 <body>
@@ -15,12 +15,14 @@
 	</nav>
 
 	<header aria-label="Site header">
-		<a href="#" id="logo">DSL</a>
+		<a href="#" id="logo" aria-label="Dynamic Skip Links home">
+			<span class="logo-key" aria-hidden="true">⇥</span>
+			skip links
+		</a>
 		<nav class="nav-main" aria-label="Main navigation">
 			<ul>
 				<li><a href="#">Home</a></li>
-				<li><a href="#">Documentation</a></li>
-				<li><a href="#">Examples</a></li>
+				<li><a href="#">Docs</a></li>
 				<li><a href="#">GitHub</a></li>
 			</ul>
 		</nav>
@@ -31,41 +33,51 @@
 	</header>
 
 	<main>
+
+		<div class="debug-notice">
+			<strong>Debug mode is on.</strong>
+			<span class="badge badge--blue">Blue outline</span> = skip link target with a valid label.
+			<span class="badge badge--orange">Orange outline</span> = label missing — check the browser console.
+			Press <kbd>Tab</kbd> to reveal the skip link list.
+		</div>
+
 		<h1>Dynamic Skip Links</h1>
-		<p class="lead">Press <kbd>Tab</kbd> to reveal a list of skip links generated from this page's landmarks and headings.</p>
+		<p class="lead">A small module that scans your page for landmarks and headings and builds a skip link list automatically — no manual maintenance needed.</p>
 
-		<h2>What are skip links?</h2>
-		<p>A skip link is a visually hidden anchor that appears when focused. It lets keyboard and assistive-technology users bypass repeated content — like the header or navigation — and jump directly to the section they need.</p>
-		<p>Most implementations provide a single "Skip to main content" link. This library makes them <em>dynamic</em>: it scans the page for landmarks and headings and builds the full list automatically.</p>
+		<h2>Labelled elements</h2>
+		<p>The header, main navigation, and search form above all have <code>aria-label</code> attributes (blue outline). Their skip links read as meaningful destinations. The headings on this page also produce good labels because the module reads their text content directly.</p>
 
-		<h2>How to use it</h2>
-		<p>Add the skip links container before any other content and include the script. Everything else is automatic.</p>
-		<pre><code>&lt;nav id="skiplinks" aria-label="Skip links"&gt;
-  &lt;ul id="js-nav-skip-links"&gt;&lt;/ul&gt;
-&lt;/nav&gt;
+		<h2>Missing labels</h2>
+		<p>The nav and form below have no <code>aria-label</code>. They fall back to <em>No label</em> in the skip link list (orange outline). The <code>&lt;main&gt;</code> element itself also has no label — another orange.</p>
 
-&lt;!-- your page content --&gt;
+		<nav class="demo-nav">
+			<ul>
+				<li><a href="#">WCAG 2.1 — Success Criterion 2.4.1</a></li>
+				<li><a href="#">ARIA Authoring Practices — Landmark Regions</a></li>
+				<li><a href="#">WebAIM — Skip Navigation Links</a></li>
+			</ul>
+		</nav>
 
-&lt;script src="behaviour.js"&gt;&lt;/script&gt;</code></pre>
+		<form class="demo-form">
+			<label for="email">Stay updated</label>
+			<input type="email" id="email" placeholder="your@email.com">
+			<button type="submit">Subscribe</button>
+		</form>
 
-		<h2>Label resolution</h2>
-		<p>Each skip link label is resolved in this order:</p>
-		<ol>
-			<li><code>aria-label</code> on the element</li>
-			<li>The text of the element referenced by <code>aria-labelledby</code></li>
-			<li>The element's own text content (headings only)</li>
-			<li>Fallback: <em>No label</em></li>
-		</ol>
-		<p>Labels longer than 60 characters are trimmed automatically.</p>
+		<h2>How to fix it</h2>
+		<p>Add <code>aria-label</code> to any landmark that lacks meaningful text content:</p>
+		<pre><code>&lt;nav aria-label="Related resources"&gt;…&lt;/nav&gt;
+&lt;form aria-label="Newsletter signup"&gt;…&lt;/form&gt;
+&lt;main aria-label="Main content"&gt;…&lt;/main&gt;</code></pre>
+		<p>See <a href="README.md">README.md</a> for the full integration guide.</p>
 
-		<h2>Accessibility notes</h2>
-		<p>Target elements receive <code>tabindex="-1"</code> so keyboard focus lands correctly when a skip link is activated. The skip links navigation uses <code>aria-label="Skip links"</code> to identify itself as a distinct landmark to screen readers.</p>
 	</main>
 
 	<footer>
 		<p>Built by <a href="https://github.com/formspiel">@formspiel</a>. Copy with pride.</p>
 	</footer>
 
-	<script src="behaviour.js"></script>
+	<script>window.dynamicSkipLinksConfig = { debug: true };</script>
+	<script src="dynamic-skip-links.js"></script>
 </body>
 </html>

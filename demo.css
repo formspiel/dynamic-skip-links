@@ -1,0 +1,318 @@
+/*
+ * Design tokens
+ */
+
+:root {
+	color-scheme: light dark;
+
+	--max-width: 52rem;
+	--border-radius: .25rem;
+	--space: 1rem;
+
+	--color-bg:          hsl(0, 0%, 96%);
+	--color-surface:     hsl(0, 0%, 100%);
+	--color-border:      hsl(0, 0%, 82%);
+	--color-text:        hsl(0, 0%, 12%);
+	--color-text-muted:  hsl(0, 0%, 45%);
+	--color-link:        hsl(220, 80%, 40%);
+
+	--skiplink-color-bgr:    hsl(60, 100%, 96%);
+	--skiplink-color-border: hsl(0, 0%, 0%);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-bg:         hsl(0, 0%, 14%);
+		--color-surface:    hsl(0, 0%, 18%);
+		--color-border:     hsl(0, 0%, 30%);
+		--color-text:       hsl(0, 0%, 90%);
+		--color-text-muted: hsl(0, 0%, 58%);
+		--color-link:       hsl(220, 80%, 68%);
+
+		--skiplink-color-bgr: hsl(270, 50%, 15%);
+	}
+}
+
+@media (forced-colors) {
+	:root {
+		--color-bg:          Canvas;
+		--color-surface:     Canvas;
+		--color-border:      CanvasText;
+		--color-text:        CanvasText;
+		--color-text-muted:  CanvasText;
+		--color-link:        ActiveText;
+		--skiplink-color-bgr:    Canvas;
+		--skiplink-color-border: CanvasText;
+	}
+}
+
+/* ===== Reset & base ===== */
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+body {
+	font: normal 400 1rem/1.6 sans-serif;
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: var(--color-link);
+}
+
+code, pre, kbd {
+	font-family: monospace;
+	font-size: .9em;
+}
+
+pre {
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	padding: var(--space);
+	overflow-x: auto;
+}
+
+kbd {
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: .2em;
+	padding: .1em .4em;
+}
+
+/* ===== Page layout ===== */
+
+header, main, footer {
+	max-width: var(--max-width);
+	margin-inline: auto;
+	padding-inline: var(--space);
+}
+
+/* ===== Header ===== */
+
+header {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .5rem var(--space);
+	padding-block: .75rem;
+	border-bottom: 1px solid var(--color-border);
+}
+
+#logo {
+	display: inline-flex;
+	align-items: center;
+	gap: .4em;
+	font-weight: 700;
+	font-size: 1rem;
+	text-decoration: none;
+	color: var(--color-text);
+	flex-shrink: 0;
+}
+
+.logo-key {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.6em;
+	height: 1.4em;
+	border: 1.5px solid currentColor;
+	border-radius: .25em;
+	font-size: .9em;
+	font-weight: 400;
+	opacity: .75;
+}
+
+.nav-main {
+	flex: 1 1 auto;
+}
+
+.nav-main ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	gap: var(--space);
+	flex-wrap: wrap;
+}
+
+.nav-main a {
+	text-decoration: none;
+}
+
+.nav-main a:hover {
+	text-decoration: underline;
+}
+
+form[role="search"] {
+	display: flex;
+	gap: .5rem;
+	margin-left: auto;
+	flex-shrink: 0;
+}
+
+form[role="search"] input {
+	padding: .3rem .6rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	background-color: var(--color-surface);
+	color: var(--color-text);
+	min-width: 0;
+}
+
+form[role="search"] button {
+	padding: .3rem .75rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	background-color: var(--color-surface);
+	color: var(--color-text);
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+form[role="search"] button:hover {
+	background-color: var(--color-border);
+}
+
+/* ===== Main content ===== */
+
+main {
+	padding-block: 2rem;
+}
+
+main h1 {
+	font-size: 2rem;
+	line-height: 1.2;
+	margin-top: 0;
+}
+
+main h2 {
+	font-size: 1.2rem;
+	margin-top: 2.5rem;
+	padding-bottom: .25rem;
+	border-bottom: 1px solid var(--color-border);
+}
+
+.lead {
+	font-size: 1.1rem;
+	color: var(--color-text-muted);
+	margin-top: -.25rem;
+}
+
+/* ===== Footer ===== */
+
+footer {
+	padding-block: 1.5rem;
+	margin-top: 2rem;
+	border-top: 1px solid var(--color-border);
+	color: var(--color-text-muted);
+	font-size: .9rem;
+}
+
+/* ===== Demo: inline nav and form examples ===== */
+
+.demo-nav ul {
+	list-style: none;
+	margin: 0;
+	padding: .75rem 0;
+	display: flex;
+	flex-direction: column;
+	gap: .25rem;
+}
+
+.demo-form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .5rem;
+	padding: .75rem 1rem;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+}
+
+.demo-form input {
+	padding: .3rem .6rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	background-color: var(--color-bg);
+	color: var(--color-text);
+}
+
+.demo-form button {
+	padding: .3rem .75rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	cursor: pointer;
+}
+
+/* ===== Debug notice ===== */
+
+.debug-notice {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .35rem .6rem;
+	padding: .75rem 1rem;
+	margin-bottom: 2rem;
+	background-color: hsl(45, 100%, 94%);
+	border-left: 3px solid hsl(45, 100%, 42%);
+	border-radius: 0 var(--border-radius) var(--border-radius) 0;
+	font-size: .875rem;
+}
+
+@media (prefers-color-scheme: dark) {
+	.debug-notice {
+		background-color: hsl(45, 20%, 16%);
+		border-left-color: hsl(45, 80%, 50%);
+	}
+}
+
+.badge {
+	display: inline-block;
+	padding: .1em .45em;
+	border-radius: .2em;
+	font-size: .85em;
+	font-weight: 600;
+}
+
+.badge--blue {
+	background: hsl(200, 80%, 92%);
+	color: hsl(200, 100%, 22%);
+	outline: 1.5px dashed hsl(200, 100%, 45%);
+}
+
+.badge--orange {
+	background: hsl(30, 100%, 92%);
+	color: hsl(30, 100%, 22%);
+	outline: 1.5px dashed hsl(30, 100%, 50%);
+}
+
+@media (prefers-color-scheme: dark) {
+	.badge--blue {
+		background: hsl(200, 40%, 18%);
+		color: hsl(200, 80%, 72%);
+	}
+	.badge--orange {
+		background: hsl(30, 40%, 18%);
+		color: hsl(30, 80%, 72%);
+	}
+}
+
+/* ===== Skip links — demo design layer (mandatory rules are in dynamic-skip-links.css) ===== */
+
+#skiplinks a:focus-visible,
+#skiplinks a:active {
+	padding: .5rem 1rem;
+	background-color: var(--skiplink-color-bgr);
+	border: 2px solid var(--skiplink-color-border);
+	text-align: center;
+	text-decoration: none;
+	border-radius: var(--border-radius);
+}
