@@ -36,30 +36,58 @@
 
 		<h2>What are skip links?</h2>
 		<p>A skip link is a visually hidden anchor that appears when focused. It lets keyboard and assistive-technology users bypass repeated content — like the header or navigation — and jump directly to the section they need.</p>
-		<p>Most implementations provide a single "Skip to main content" link. This library makes them <em>dynamic</em>: it scans the page for landmarks and headings and builds the full list automatically.</p>
+		<p>Most implementations provide a single "Skip to main content" link. This module makes them <em>dynamic</em>: it scans the page for landmarks and headings and builds the full list automatically.</p>
 
-		<h2>How to use it</h2>
-		<p>Add the skip links container before any other content and include the script. Everything else is automatic.</p>
+		<h2>How to integrate</h2>
+
+		<h3>Step 1 — Include the module files</h3>
+		<p>Copy <code>behaviour.js</code> and <code>skiplinks.css</code> into your project. These are the only two files the module requires.</p>
+		<pre><code>&lt;link rel="stylesheet" href="skiplinks.css"&gt;
+
+&lt;!-- before &lt;/body&gt; --&gt;
+&lt;script src="behaviour.js"&gt;&lt;/script&gt;</code></pre>
+
+		<h3>Step 2 — Add the HTML snippet</h3>
+		<p>Place this as the <strong>first element inside <code>&lt;body&gt;</code></strong>:</p>
 		<pre><code>&lt;nav id="skiplinks" aria-label="Skip links"&gt;
   &lt;ul id="js-nav-skip-links"&gt;&lt;/ul&gt;
-&lt;/nav&gt;
+&lt;/nav&gt;</code></pre>
 
-&lt;!-- your page content --&gt;
+		<h3>Step 3 — Style the revealed links</h3>
+		<p><code>skiplinks.css</code> handles hiding and revealing the links mechanically but applies no visual design. Add this to your own stylesheet and adjust to match your project:</p>
+		<pre><code>#skiplinks a:focus-visible,
+#skiplinks a:active {
+  padding: .5rem 1rem;
+  background-color: #fff;
+  border: 2px solid #000;
+  text-align: center;
+  text-decoration: none;
+}</code></pre>
+		<p>That is the entire integration. No other changes to your HTML or CSS are needed.</p>
 
-&lt;script src="behaviour.js"&gt;&lt;/script&gt;</code></pre>
+		<h2>Configuration</h2>
+		<p>Two values at the top of <code>behaviour.js</code> can be changed if the default IDs conflict with your project:</p>
+		<pre><code>var config = {
+  // id of the &lt;ul&gt; that receives the generated links
+  containerId: "js-nav-skip-links",
+
+  // elements that become skip link targets
+  selector: "header, main, nav, form, h1, h2"
+};</code></pre>
+		<p>One CSS custom property is also available if you need to adjust the stacking order:</p>
+		<pre><code>:root {
+  --skiplinks-z-index: 9999; /* default */
+}</code></pre>
 
 		<h2>Label resolution</h2>
 		<p>Each skip link label is resolved in this order:</p>
 		<ol>
 			<li><code>aria-label</code> on the element</li>
-			<li>The text of the element referenced by <code>aria-labelledby</code></li>
+			<li>Text of the element referenced by <code>aria-labelledby</code></li>
 			<li>The element's own text content (headings only)</li>
 			<li>Fallback: <em>No label</em></li>
 		</ol>
 		<p>Labels longer than 60 characters are trimmed automatically.</p>
-
-		<h2>Accessibility notes</h2>
-		<p>Target elements receive <code>tabindex="-1"</code> so keyboard focus lands correctly when a skip link is activated. The skip links navigation uses <code>aria-label="Skip links"</code> to identify itself as a distinct landmark to screen readers.</p>
 	</main>
 
 	<footer>

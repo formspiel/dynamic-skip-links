@@ -1,4 +1,15 @@
 (function () {
+  /*
+   * Configuration — the only values you may need to change.
+   *
+   * containerId  Id of the <ul> element that receives the generated links.
+   * selector     CSS selector for the page elements that become link targets.
+   */
+  var config = {
+    containerId: "js-nav-skip-links",
+    selector: "header, main, nav, form, h1, h2"
+  };
+
   function ready(fn) {
     if (document.readyState !== "loading") {
       fn();
@@ -17,18 +28,18 @@
   var idGen = new Generator();
 
   ready(function () {
-    var container = document.getElementById("js-nav-skip-links");
+    var container = document.getElementById(config.containerId);
 
     if (!container) {
       console.warn(
-        "dynamic-skip-links: no #js-nav-skip-links element found. " +
-          "Add <ul id=\"js-nav-skip-links\"></ul> to your page."
+        "dynamic-skip-links: no #" + config.containerId + " element found. " +
+          "Add <ul id=\"" + config.containerId + "\"></ul> to your page."
       );
       return;
     }
 
     var skipNav = container.closest("nav") || container.parentElement;
-    var elements = document.querySelectorAll("header, main, nav, form, h1, h2");
+    var elements = document.querySelectorAll(config.selector);
 
     elements.forEach(function (element) {
       if (element === skipNav) { return; }
