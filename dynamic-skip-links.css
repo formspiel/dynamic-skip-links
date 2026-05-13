@@ -37,6 +37,21 @@
 	white-space: nowrap;
 }
 
+/*
+ * Debug mode — visible only when config.debug = true in dynamic-skip-links.js.
+ * Blue outline = target element has a valid label.
+ * Orange outline = label is missing; check this element's aria-label.
+ */
+[data-dsl-debug="ok"] {
+	outline: 2px dashed hsl(200, 100%, 45%) !important;
+	outline-offset: 3px;
+}
+
+[data-dsl-debug="no-label"] {
+	outline: 2px dashed hsl(30, 100%, 50%) !important;
+	outline-offset: 3px;
+}
+
 /* revealed — undoes every hiding rule above; triggered by keyboard focus */
 #skiplinks a:focus-visible,
 #skiplinks a:active {

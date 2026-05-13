@@ -4,10 +4,13 @@
    *
    * containerId  Id of the <ul> element that receives the generated links.
    * selector     CSS selector for the page elements that become link targets.
+   * debug        Set to true during development to highlight targets and warn
+   *              about missing labels. Always false in production.
    */
   var config = {
     containerId: "js-nav-skip-links",
-    selector: "header, main, nav, form, h1, h2"
+    selector: "header, main, nav, form, h1, h2",
+    debug: false
   };
 
   function ready(fn) {
@@ -59,6 +62,19 @@
         (headingTags[element.tagName] ? element.textContent.trim() : "") ||
         "No label"
       ).slice(0, 60);
+
+      if (config.debug) {
+        var missingLabel = label === "No label";
+        element.setAttribute("data-dsl-debug", missingLabel ? "no-label" : "ok");
+        if (missingLabel) {
+          console.warn(
+            "dynamic-skip-links: missing label on <" +
+              element.tagName.toLowerCase() +
+              (element.id ? ' id="' + element.id + '"' : "") +
+              ">. Add an aria-label attribute to provide a meaningful skip link."
+          );
+        }
+      }
 
       var a = document.createElement("a");
       a.href = "#" + element.id;
