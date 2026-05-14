@@ -151,23 +151,28 @@ describe("label resolution", () => {
 // ─── Label truncation ─────────────────────────────────────────────────────────
 
 describe("label truncation", () => {
-  test("labels longer than 60 chars are trimmed to 60", () => {
-    const longText = "A".repeat(70);
-    loadModule(`<h1>${longText}</h1>`);
-    const linkText = getLinkTexts()[0];
-    // "Go to " (6) + 60 chars = 66 total
-    expect(linkText).toBe("Go to " + "A".repeat(60));
+  test("labels shorter than 60 chars are kept as-is", () => {
+    loadModule(`<h1>Short</h1>`);
+    expect(getLinkTexts()[0]).toBe("Go to Short");
   });
 
-  test("labels exactly 60 chars are not trimmed", () => {
+  test("labels exactly 60 chars are not trimmed and have no ellipsis", () => {
     const exactText = "B".repeat(60);
     loadModule(`<h1>${exactText}</h1>`);
     expect(getLinkTexts()[0]).toBe("Go to " + "B".repeat(60));
   });
 
-  test("labels shorter than 60 chars are kept as-is", () => {
-    loadModule(`<h1>Short</h1>`);
-    expect(getLinkTexts()[0]).toBe("Go to Short");
+  test("labels over 60 chars with no spaces get hard-cut at 60 with ellipsis", () => {
+    const longText = "A".repeat(70);
+    loadModule(`<h1>${longText}</h1>`);
+    expect(getLinkTexts()[0]).toBe("Go to " + "A".repeat(60) + "…");
+  });
+
+  test("labels over 60 chars with spaces are truncated at word boundary with ellipsis", () => {
+    // 63 chars: slice(0,60) ends mid-word "words" → truncates before it
+    const text = "The quick brown fox jumps over the lazy dog and some more words";
+    loadModule(`<h1>${text}</h1>`);
+    expect(getLinkTexts()[0]).toBe("Go to The quick brown fox jumps over the lazy dog and some more…");
   });
 });
 

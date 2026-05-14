@@ -67,6 +67,29 @@
 &lt;main aria-label="Main content"&gt;…&lt;/main&gt;</code></pre>
 		<p>See <a href="README.md">README.md</a> for the full integration guide.</p>
 
+		<h2>Edge cases</h2>
+
+		<p><strong>Title attribute instead of aria-label.</strong> The nav below has a <code>title</code> attribute but no <code>aria-label</code>. The module strips <code>title</code> to prevent browser tooltips on focused elements — it is never used as a label source. Without <code>aria-label</code> the element has no explicit label and shows orange.</p>
+
+		<nav title="Wrong: title used instead of aria-label" class="demo-nav">
+			<ul>
+				<li><a href="#">Example link one</a></li>
+				<li><a href="#">Example link two</a></li>
+			</ul>
+		</nav>
+
+		<p><strong>Pre-existing id.</strong> This nav already has <code>id="resources"</code> in the HTML. The module detects it and skips id generation — the skip link points directly to <code>#resources</code> rather than a generated <code>sl-…</code> id.</p>
+
+		<nav id="resources" aria-label="Resource links" class="demo-nav">
+			<ul>
+				<li><a href="#">Resource link one</a></li>
+				<li><a href="#">Resource link two</a></li>
+			</ul>
+		</nav>
+
+		<h2>This heading has a very long text that should be truncated in the generated skip link label</h2>
+		<p>Heading labels are read from text content and trimmed at the nearest word boundary around 60 characters, with an ellipsis appended. Check the skip link list to see the result.</p>
+
 	</main>
 
 	<footer>

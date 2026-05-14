@@ -172,7 +172,7 @@ Each skip link label is derived from the target element using this priority orde
 3. The element's own text content (headings only — `h1`–`h6`)
 4. Fallback: *No label*
 
-Labels longer than 60 characters are trimmed automatically.
+Labels longer than 60 characters are trimmed automatically at the nearest word boundary and an ellipsis (…) is appended. Labels with no spaces are hard-cut at 60 characters.
 
 Use `aria-label` on landmark elements (`header`, `nav`, `main`, `form`) to ensure they always produce a meaningful skip link, regardless of content.
 

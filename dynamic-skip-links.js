@@ -38,8 +38,13 @@
     }
   }
 
+  function truncate(str, max) {
+    if (str.length <= max) { return str; }
+    return str.slice(0, max).replace(/\s+\S*$/, "") + "…";
+  }
+
   function Generator() {
-    this.rand = Math.floor(Math.random() * 26) + Date.now();
+    this.rand = Math.floor(Math.random() * 1000000) + Date.now();
   }
   Generator.prototype.getId = function () {
     return this.rand++;
@@ -77,7 +82,7 @@
         (labelledByEl && labelledByEl.textContent.trim()) ||
         (headingTags[element.tagName] ? element.textContent.trim() : "")
       );
-      var label = (explicitLabel || config.typeLabels[element.tagName] || config.noLabel).slice(0, 60);
+      var label = truncate(explicitLabel || config.typeLabels[element.tagName] || config.noLabel, 60);
 
       if (config.debug) {
         var missingLabel = !explicitLabel;
