@@ -31,10 +31,8 @@
 	<main>
 
 		<div class="debug-notice">
-			<strong>Debug mode is on.</strong>
-			<span class="badge badge--blue">Blue outline</span> = skip link target with a valid label.
-			<span class="badge badge--orange">Orange outline</span> = label missing — check the browser console.
 			Press <kbd>Tab</kbd> to reveal the skip link list.
+			Press <kbd>F6</kbd> / <kbd>Shift+F6</kbd> to cycle between page sections.
 		</div>
 
 		<h1>Dynamic Skip Links</h1>
@@ -44,7 +42,7 @@
 		<p>The header, main navigation, and search form above all have <code>aria-label</code> attributes. Their skip links read as meaningful destinations. The headings on this page also produce good labels because the module reads their text content directly.</p>
 
 		<h2>Missing labels</h2>
-		<p>The nav and form below have no <code>aria-label</code>. They fall back to a generic label ("Navigation", "Form") and show an orange outline. The <code>&lt;main&gt;</code> element also has no explicit label.</p>
+		<p>The nav and form below have no <code>aria-label</code>. They fall back to a generic label ("Navigation", "Form"). The <code>&lt;main&gt;</code> element also has no explicit label.</p>
 
 		<nav class="demo-nav">
 			<ul>
@@ -69,7 +67,7 @@
 
 		<h2>Edge cases</h2>
 
-		<p><strong>Title attribute instead of aria-label.</strong> The nav below has a <code>title</code> attribute but no <code>aria-label</code>. The module strips <code>title</code> to prevent browser tooltips on focused elements — it is never used as a label source. Without <code>aria-label</code> the element has no explicit label and shows orange.</p>
+		<p><strong>Title attribute instead of aria-label.</strong> The nav below has a <code>title</code> attribute but no <code>aria-label</code>. The module strips <code>title</code> to prevent browser tooltips on focused elements — it is never used as a label source.</p>
 
 		<nav title="Wrong: title used instead of aria-label" class="demo-nav">
 			<ul>

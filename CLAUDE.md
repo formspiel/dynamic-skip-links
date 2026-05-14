@@ -22,8 +22,6 @@ tests/  — Jest + jsdom test suite
 build.js — Node script: reads src/, writes dist/
 ```
 
-The root-level `dynamic-skip-links.js` and `dynamic-skip-links.css` are stale copies that pre-date the `src/` reorganisation. Ignore them; they will be deleted.
-
 ## Module architecture
 
 `src/dynamic-skip-links.js` is a single self-executing IIFE with no runtime dependencies. It runs once on page load.
