@@ -1,0 +1,16 @@
+{
+  "name": "dynamic-skip-links",
+  "version": "1.0.0",
+  "description": "Auto-generates skip links from page landmarks and headings",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testMatch": ["**/tests/**/*.test.js"]
+  }
+}

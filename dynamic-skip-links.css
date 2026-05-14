@@ -44,6 +44,9 @@
  *
  * Uses inset box-shadow so each element's indicator stays within its own
  * bounds — nested elements (e.g. <nav> inside <main>) remain visually distinct.
+ *
+ * !important ensures the indicator overrides any competing box-shadow in the
+ * integrator's stylesheet, keeping debug feedback always visible.
  */
 [data-dsl-debug="ok"] {
 	box-shadow: inset 0 0 0 3px hsl(200, 100%, 45%) !important;

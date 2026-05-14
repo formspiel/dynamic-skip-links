@@ -75,6 +75,18 @@ If the default `z-index` conflicts with your layout, override the CSS custom pro
 }
 ```
 
+### Layouts with a positioned `<body>`
+
+`#skiplinks` uses `position: absolute`, which positions it relative to the nearest positioned ancestor. On most pages `<body>` is not positioned and the skip links sit at the top of the viewport as intended. If your layout gives `<body>` a `position` value (e.g. `position: relative`), override the rule in your stylesheet to use `position: fixed` instead:
+
+```css
+#skiplinks {
+  position: fixed;
+}
+```
+
+This is also the right choice for pages with a sticky or fixed header where you want the skip links to always appear above the header when focused.
+
 ---
 
 ## Configuration
@@ -118,6 +130,19 @@ The available properties and their defaults:
   // last-resort label when no other label can be resolved
   noLabel: "No label"
 }
+```
+
+### Overriding individual `typeLabels`
+
+`typeLabels` are deep-merged with the defaults, so you only need to supply the keys you want to change:
+
+```html
+<script>
+  window.dynamicSkipLinksConfig = {
+    typeLabels: { NAV: "Menu" }
+    // HEADER, MAIN, and FORM keep their defaults
+  };
+</script>
 ```
 
 ### Translating to another language
@@ -172,7 +197,7 @@ Each skip link label is derived from the target element using this priority orde
 3. The element's own text content (headings only — `h1`–`h6`)
 4. Fallback: *No label*
 
-Labels longer than 60 characters are trimmed automatically.
+Labels longer than 60 characters are trimmed automatically at the nearest word boundary and an ellipsis (…) is appended. Labels with no spaces are hard-cut at 60 characters.
 
 Use `aria-label` on landmark elements (`header`, `nav`, `main`, `form`) to ensure they always produce a meaningful skip link, regardless of content.
 
