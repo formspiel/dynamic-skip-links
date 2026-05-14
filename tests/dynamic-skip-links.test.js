@@ -42,6 +42,12 @@ describe("nav injection", () => {
     expect(nav.id).toBe("skiplinks");
   });
 
+  test("injected nav has role=navigation for VoiceOver compatibility", () => {
+    loadModule("<main>content</main>");
+    const nav = document.getElementById("skiplinks");
+    expect(nav.getAttribute("role")).toBe("navigation");
+  });
+
   test("injected nav has aria-label matching config.navLabel default", () => {
     loadModule("<main>content</main>");
     const nav = document.getElementById("skiplinks");
@@ -126,19 +132,29 @@ describe("label resolution", () => {
     expect(getLinkTexts()).toEqual(["Go to Form"]);
   });
 
-  test("falls back to noLabel as last resort", () => {
-    loadModule("<nav>…</nav>", { typeLabels: {}, noLabel: "Unlabelled" });
+  test("falls back to noLabel as last resort for unknown element types", () => {
+    // <section> has no entry in typeLabels; noLabel is the final fallback
+    loadModule("<section>…</section>", { selector: "section", noLabel: "Unlabelled" });
     expect(getLinkTexts()).toEqual(["Go to Unlabelled"]);
   });
 
   test("uses custom noLabel string", () => {
-    loadModule("<nav>…</nav>", { typeLabels: {}, noLabel: "Kein Label" });
+    loadModule("<section>…</section>", { selector: "section", noLabel: "Kein Label" });
     expect(getLinkTexts()).toEqual(["Go to Kein Label"]);
   });
 
-  test("uses custom typeLabels", () => {
+  test("uses custom typeLabels for a single key", () => {
     loadModule("<nav>…</nav>", { typeLabels: { NAV: "Navigation (Deutsch)" } });
     expect(getLinkTexts()).toEqual(["Go to Navigation (Deutsch)"]);
+  });
+
+  test("typeLabels partial override keeps unspecified defaults", () => {
+    // Only NAV is overridden; HEADER should still use its default
+    loadModule(
+      `<header>…</header><nav>…</nav>`,
+      { typeLabels: { NAV: "Menu" } }
+    );
+    expect(getLinkTexts()).toEqual(["Go to Page header", "Go to Menu"]);
   });
 
   test("does not use heading text for non-heading elements", () => {

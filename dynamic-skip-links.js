@@ -15,6 +15,7 @@
    * typeLabels   Fallback labels for landmark elements that have no aria-label.
    * noLabel      Last-resort label when no other label can be resolved.
    */
+  var userConfig = window.dynamicSkipLinksConfig || {};
   var config = Object.assign({
     containerId: "js-nav-skip-links",
     selector: "header, main, nav, form, h1, h2",
@@ -28,7 +29,14 @@
       FORM:   "Form"
     },
     noLabel: "No label"
-  }, window.dynamicSkipLinksConfig || {});
+  }, userConfig);
+  // Deep-merge typeLabels so a partial override keeps unspecified defaults.
+  config.typeLabels = Object.assign({
+    HEADER: "Page header",
+    MAIN:   "Main content",
+    NAV:    "Navigation",
+    FORM:   "Form"
+  }, userConfig.typeLabels || {});
 
   function ready(fn) {
     if (document.readyState !== "loading") {
@@ -55,6 +63,7 @@
   ready(function () {
     var nav = document.createElement("nav");
     nav.id = "skiplinks";
+    nav.setAttribute("role", "navigation");
     nav.setAttribute("aria-label", config.navLabel);
 
     var container = document.createElement("ul");

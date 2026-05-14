@@ -75,6 +75,18 @@ If the default `z-index` conflicts with your layout, override the CSS custom pro
 }
 ```
 
+### Layouts with a positioned `<body>`
+
+`#skiplinks` uses `position: absolute`, which positions it relative to the nearest positioned ancestor. On most pages `<body>` is not positioned and the skip links sit at the top of the viewport as intended. If your layout gives `<body>` a `position` value (e.g. `position: relative`), override the rule in your stylesheet to use `position: fixed` instead:
+
+```css
+#skiplinks {
+  position: fixed;
+}
+```
+
+This is also the right choice for pages with a sticky or fixed header where you want the skip links to always appear above the header when focused.
+
 ---
 
 ## Configuration
@@ -118,6 +130,19 @@ The available properties and their defaults:
   // last-resort label when no other label can be resolved
   noLabel: "No label"
 }
+```
+
+### Overriding individual `typeLabels`
+
+`typeLabels` are deep-merged with the defaults, so you only need to supply the keys you want to change:
+
+```html
+<script>
+  window.dynamicSkipLinksConfig = {
+    typeLabels: { NAV: "Menu" }
+    // HEADER, MAIN, and FORM keep their defaults
+  };
+</script>
 ```
 
 ### Translating to another language
