@@ -319,3 +319,16 @@ kbd {
 }
 
 /* ===== Skip links — demo design layer (mandatory rules are in dist/dynamic-skip-links.min.css) ===== */
+
+#skiplinks a:focus-visible,
+#skiplinks a:active {
+	display: block;
+	padding: .6rem 1.5rem;
+	background: var(--color-brand);
+	color: #fff;
+	font-size: .875rem;
+	font-weight: 600;
+	text-decoration: none;
+	text-align: center;
+	outline: none;
+}
