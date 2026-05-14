@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm test                          # run all 63 Jest tests
+npm test                          # run all 67 Jest tests
 npx jest -t "label truncation"    # run a single describe block by name
 npx jest --testNamePattern "F6"   # run tests matching a string
 npm run build                     # minify src/ → dist/ (terser + clean-css)
