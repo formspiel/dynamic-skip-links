@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "Auto-generates skip links from page landmarks and headings",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "node build.js"
   },
   "devDependencies": {
+    "clean-css": "^5.3.3",
     "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0"
+    "jest-environment-jsdom": "^29.7.0",
+    "terser": "^5.31.0"
   },
   "jest": {
     "testEnvironment": "jsdom",

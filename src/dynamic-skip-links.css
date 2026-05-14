@@ -1,0 +1,104 @@
+/*
+ * Dynamic Skip Links — mandatory styles
+ *
+ * Include this file in every project that uses the module.
+ * Do not edit these rules — they are required for correct behaviour.
+ *
+ * To customise the appearance of the revealed skip links, override
+ * #skiplinks a:focus-visible in your own stylesheet (loaded after this one).
+ *
+ * One mechanical value is exposed as a CSS custom property so you can
+ * adjust it without touching this file:
+ *
+ *   --skiplinks-z-index  (default: 9999)
+ */
+
+#skiplinks ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#skiplinks {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: var(--skiplinks-z-index, 9999);
+	width: 100%;
+}
+
+/* visually hidden — keeps links in the accessibility tree but off-screen */
+#skiplinks a {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/*
+ * Debug mode — visible only when config.debug = true in dynamic-skip-links.js.
+ * Blue = target element has a valid label.
+ * Orange = label is missing; check this element's aria-label.
+ *
+ * Uses inset box-shadow so each element's indicator stays within its own
+ * bounds — nested elements (e.g. <nav> inside <main>) remain visually distinct.
+ *
+ * !important ensures the indicator overrides any competing box-shadow in the
+ * integrator's stylesheet, keeping debug feedback always visible.
+ */
+[data-dsl-debug="ok"] {
+	box-shadow: inset 0 0 0 3px hsl(200, 100%, 45%) !important;
+}
+
+[data-dsl-debug="no-label"] {
+	box-shadow: inset 0 0 0 3px hsl(30, 100%, 50%) !important;
+}
+
+/*
+ * F6 hint — hidden off-screen like the links; revealed when any skip link
+ * has focus so it appears alongside the skip link list.
+ * Visual design (font size, colour, spacing) is left to the integrator.
+ */
+.dsl-f6-hint {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+}
+
+#skiplinks:focus-within .dsl-f6-hint {
+	position: static;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+	clip-path: none;
+	white-space: normal;
+}
+
+/* revealed — undoes every hiding rule above; triggered by keyboard focus */
+#skiplinks a:focus-visible,
+#skiplinks a:active {
+	position: static;
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+	clip-path: none;
+	white-space: normal;
+	/*
+	 * Design is intentionally left out of this file.
+	 * Add your own styles in your project stylesheet, for example:
+	 *
+	 *   padding: .5rem 1rem;
+	 *   background-color: #fff;
+	 *   border: 2px solid #000;
+	 *   text-align: center;
+	 *   text-decoration: none;
+	 */
+}

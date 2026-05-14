@@ -1,5 +1,5 @@
 /**
- * Tests for dynamic-skip-links.js
+ * Tests for src/dynamic-skip-links.js
  *
  * Each test resets the module and DOM so the IIFE re-runs with a clean slate.
  * The module reads window.dynamicSkipLinksConfig at execution time, so config
@@ -12,7 +12,7 @@ function loadModule(bodyHtml = "", config = {}) {
   jest.resetModules();
   document.body.innerHTML = bodyHtml;
   global.window.dynamicSkipLinksConfig = config;
-  require("../dynamic-skip-links.js");
+  require("../src/dynamic-skip-links.js");
 }
 
 function getLinks() {
@@ -25,6 +25,12 @@ function getLinkTexts() {
 
 function getLinkHrefs() {
   return getLinks().map((a) => a.getAttribute("href"));
+}
+
+function pressKey(key, options = {}) {
+  document.dispatchEvent(
+    new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...options })
+  );
 }
 
 afterEach(() => {
@@ -423,5 +429,134 @@ describe("full localisation via config", () => {
       "Gehe zu Navigation",
       "Gehe zu Hauptinhalt",
     ]);
+  });
+});
+
+// ─── F6 navigation ───────────────────────────────────────────────────────────
+
+describe("F6 navigation", () => {
+  function getTargets() {
+    // Returns the actual landmark/heading elements (not the skip links nav).
+    return Array.from(
+      document.querySelectorAll("header, main, nav, form, h1, h2")
+    ).filter((el) => el.id !== "skiplinks");
+  }
+
+  test("F6 is ignored when f6 option is false (default)", () => {
+    loadModule("<header>…</header><main>…</main>");
+    const targets = getTargets();
+    targets[0].focus();
+    pressKey("F6");
+    // focus should not have moved to next target
+    expect(document.activeElement).toBe(targets[0]);
+  });
+
+  test("F6 moves focus to first target when no target is focused", () => {
+    loadModule("<header>…</header><main>…</main>", { f6: true });
+    pressKey("F6");
+    const targets = getTargets();
+    expect(document.activeElement).toBe(targets[0]);
+  });
+
+  test("F6 advances focus to the next target", () => {
+    loadModule("<header>…</header><main>…</main>", { f6: true });
+    const targets = getTargets();
+    targets[0].focus();
+    pressKey("F6");
+    expect(document.activeElement).toBe(targets[1]);
+  });
+
+  test("F6 wraps from last target to first", () => {
+    loadModule("<header>…</header><main>…</main>", { f6: true });
+    const targets = getTargets();
+    targets[targets.length - 1].focus();
+    pressKey("F6");
+    expect(document.activeElement).toBe(targets[0]);
+  });
+
+  test("Shift+F6 moves focus to the previous target", () => {
+    loadModule("<header>…</header><main>…</main><nav>…</nav>", { f6: true });
+    const targets = getTargets();
+    targets[2].focus();
+    pressKey("F6", { shiftKey: true });
+    expect(document.activeElement).toBe(targets[1]);
+  });
+
+  test("Shift+F6 wraps from first target to last", () => {
+    loadModule("<header>…</header><main>…</main>", { f6: true });
+    const targets = getTargets();
+    targets[0].focus();
+    pressKey("F6", { shiftKey: true });
+    expect(document.activeElement).toBe(targets[targets.length - 1]);
+  });
+
+  test("F6 without Ctrl is ignored when f6Modifier is true", () => {
+    loadModule("<header>…</header><main>…</main>", { f6: true, f6Modifier: true });
+    const targets = getTargets();
+    targets[0].focus();
+    pressKey("F6");
+    expect(document.activeElement).toBe(targets[0]);
+  });
+
+  test("Ctrl+F6 advances focus when f6Modifier is true", () => {
+    loadModule("<header>…</header><main>…</main>", { f6: true, f6Modifier: true });
+    const targets = getTargets();
+    targets[0].focus();
+    pressKey("F6", { ctrlKey: true });
+    expect(document.activeElement).toBe(targets[1]);
+  });
+
+  test("Ctrl+Shift+F6 moves backward when f6Modifier is true", () => {
+    loadModule("<header>…</header><main>…</main><nav>…</nav>", { f6: true, f6Modifier: true });
+    const targets = getTargets();
+    targets[2].focus();
+    pressKey("F6", { ctrlKey: true, shiftKey: true });
+    expect(document.activeElement).toBe(targets[1]);
+  });
+
+  test("F6 cycles through all three landmark types", () => {
+    loadModule(
+      `<header aria-label="H">…</header>
+       <main aria-label="M">…</main>
+       <nav aria-label="N">…</nav>`,
+      { f6: true }
+    );
+    const targets = getTargets();
+    expect(targets).toHaveLength(3);
+    pressKey("F6");
+    expect(document.activeElement).toBe(targets[0]);
+    pressKey("F6");
+    expect(document.activeElement).toBe(targets[1]);
+    pressKey("F6");
+    expect(document.activeElement).toBe(targets[2]);
+    pressKey("F6");
+    expect(document.activeElement).toBe(targets[0]);
+  });
+});
+
+// ─── F6 hint ──────────────────────────────────────────────────────────────────
+
+describe("F6 hint", () => {
+  test("no hint element when f6Hint is empty (default)", () => {
+    loadModule("<main>…</main>", { f6: true });
+    expect(document.querySelector(".dsl-f6-hint")).toBeNull();
+  });
+
+  test("no hint element when f6 is false even if f6Hint is set", () => {
+    loadModule("<main>…</main>", { f6: false, f6Hint: "Press F6" });
+    expect(document.querySelector(".dsl-f6-hint")).toBeNull();
+  });
+
+  test("hint element rendered inside #skiplinks when f6 and f6Hint are set", () => {
+    loadModule("<main>…</main>", { f6: true, f6Hint: "Press F6 to jump" });
+    const hint = document.querySelector(".dsl-f6-hint");
+    expect(hint).not.toBeNull();
+    expect(hint.tagName).toBe("P");
+    expect(hint.closest("#skiplinks")).not.toBeNull();
+  });
+
+  test("hint text matches f6Hint config value", () => {
+    loadModule("<main>…</main>", { f6: true, f6Hint: "Ctrl+F6 to navigate" });
+    expect(document.querySelector(".dsl-f6-hint").textContent).toBe("Ctrl+F6 to navigate");
   });
 });
