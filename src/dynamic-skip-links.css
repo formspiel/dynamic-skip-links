@@ -56,6 +56,31 @@
 	box-shadow: inset 0 0 0 3px hsl(30, 100%, 50%) !important;
 }
 
+/*
+ * F6 hint — hidden off-screen like the links; revealed when any skip link
+ * has focus so it appears alongside the skip link list.
+ * Visual design (font size, colour, spacing) is left to the integrator.
+ */
+.dsl-f6-hint {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+}
+
+#skiplinks:focus-within .dsl-f6-hint {
+	position: static;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+	clip-path: none;
+	white-space: normal;
+}
+
 /* revealed — undoes every hiding rule above; triggered by keyboard focus */
 #skiplinks a:focus-visible,
 #skiplinks a:active {

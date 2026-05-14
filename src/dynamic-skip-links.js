@@ -17,6 +17,9 @@
    * f6            Enable F6 key to cycle through landmark targets. Default false
    *               to avoid overriding the browser's native F6 behaviour.
    * f6Modifier    Require Ctrl to be held with F6 (safer — no browser conflict).
+   * f6Hint        Text shown inside the skip links nav when F6 is enabled,
+   *               informing keyboard users which shortcut is available.
+   *               Empty string (default) suppresses the hint entirely.
    */
   var userConfig = window.dynamicSkipLinksConfig || {};
   var config = Object.assign({
@@ -33,7 +36,8 @@
     },
     noLabel: "No label",
     f6: false,
-    f6Modifier: false
+    f6Modifier: false,
+    f6Hint: ""
   }, userConfig);
   // Deep-merge typeLabels so a partial override keeps unspecified defaults.
   config.typeLabels = Object.assign({
@@ -128,6 +132,13 @@
 
       targets.push(element);
     });
+
+    if (config.f6 && config.f6Hint) {
+      var hint = document.createElement("p");
+      hint.className = "dsl-f6-hint";
+      hint.textContent = config.f6Hint;
+      nav.appendChild(hint);
+    }
 
     // F6 cycles focus through landmark targets (forward) or Shift+F6 (backward).
     // Disabled by default to avoid overriding the browser's native F6 behaviour.

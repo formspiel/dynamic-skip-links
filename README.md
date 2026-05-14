@@ -151,7 +151,12 @@ The available properties and their defaults:
   f6: false,
 
   // when true, require Ctrl+F6 instead of plain F6 (avoids browser conflicts)
-  f6Modifier: false
+  f6Modifier: false,
+
+  // hint text rendered inside the skip links nav when f6 is enabled.
+  // Appears alongside the skip link list when any link receives focus.
+  // Empty string (default) = no hint rendered.
+  f6Hint: ""
 }
 ```
 
@@ -245,6 +250,52 @@ Set `f6Modifier: true` to require the Ctrl key. This avoids any conflict with th
 |---|---|
 | Ctrl+F6 | Focus the next landmark target |
 | Ctrl+Shift+F6 | Focus the previous landmark target |
+
+### Informing users with `f6Hint`
+
+When F6 is enabled, keyboard users who discover the skip links via Tab have no way of knowing that F6 shortcuts exist. The `f6Hint` option renders a small informational paragraph inside the skip links nav. It appears alongside the skip link list whenever a link is focused (using CSS `:focus-within`) and is read by screen readers.
+
+```html
+<script>
+  window.dynamicSkipLinksConfig = {
+    f6: true,
+    f6Hint: "Press F6 / Shift+F6 to jump between sections"
+  };
+</script>
+```
+
+With `f6Modifier: true`, update the hint to match:
+
+```html
+<script>
+  window.dynamicSkipLinksConfig = {
+    f6: true,
+    f6Modifier: true,
+    f6Hint: "Press Ctrl+F6 / Ctrl+Shift+F6 to jump between sections"
+  };
+</script>
+```
+
+The hint is rendered as `<p class="dsl-f6-hint">`. No visual design is applied by the module — add your own styles after the module CSS, for example:
+
+```css
+.dsl-f6-hint {
+  font-size: 0.75rem;
+  color: #555;
+  padding: 0.25rem 1rem 0.5rem;
+  text-align: center;
+}
+```
+
+**Suggested `f6Hint` translations:**
+
+| Language | Plain F6 | Ctrl+F6 |
+|---|---|---|
+| English | `"Press F6 / Shift+F6 to jump between sections"` | `"Press Ctrl+F6 / Ctrl+Shift+F6 to jump between sections"` |
+| German | `"F6 / Umschalt+F6 zum Springen zwischen Abschnitten"` | `"Strg+F6 / Strg+Umschalt+F6 zum Springen zwischen Abschnitten"` |
+| French | `"Appuyez sur F6 / Maj+F6 pour naviguer entre les sections"` | `"Appuyez sur Ctrl+F6 / Ctrl+Maj+F6 pour naviguer entre les sections"` |
+| Italian | `"Premi F6 / Maiusc+F6 per passare tra le sezioni"` | `"Premi Ctrl+F6 / Ctrl+Maiusc+F6 per passare tra le sezioni"` |
+| Spanish | `"Presiona F6 / Mayús+F6 para saltar entre secciones"` | `"Presiona Ctrl+F6 / Ctrl+Mayús+F6 para saltar entre secciones"` |
 
 ---
 

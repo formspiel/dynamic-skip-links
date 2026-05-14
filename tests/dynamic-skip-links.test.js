@@ -533,3 +533,30 @@ describe("F6 navigation", () => {
     expect(document.activeElement).toBe(targets[0]);
   });
 });
+
+// ─── F6 hint ──────────────────────────────────────────────────────────────────
+
+describe("F6 hint", () => {
+  test("no hint element when f6Hint is empty (default)", () => {
+    loadModule("<main>…</main>", { f6: true });
+    expect(document.querySelector(".dsl-f6-hint")).toBeNull();
+  });
+
+  test("no hint element when f6 is false even if f6Hint is set", () => {
+    loadModule("<main>…</main>", { f6: false, f6Hint: "Press F6" });
+    expect(document.querySelector(".dsl-f6-hint")).toBeNull();
+  });
+
+  test("hint element rendered inside #skiplinks when f6 and f6Hint are set", () => {
+    loadModule("<main>…</main>", { f6: true, f6Hint: "Press F6 to jump" });
+    const hint = document.querySelector(".dsl-f6-hint");
+    expect(hint).not.toBeNull();
+    expect(hint.tagName).toBe("P");
+    expect(hint.closest("#skiplinks")).not.toBeNull();
+  });
+
+  test("hint text matches f6Hint config value", () => {
+    loadModule("<main>…</main>", { f6: true, f6Hint: "Ctrl+F6 to navigate" });
+    expect(document.querySelector(".dsl-f6-hint").textContent).toBe("Ctrl+F6 to navigate");
+  });
+});
