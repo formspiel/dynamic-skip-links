@@ -310,6 +310,7 @@ Set `config.debug = true` during development to surface labelling problems befor
   - **Orange** — label is missing; the skip link will fall back to *No label*
 - Appends a visually-visible type tag (e.g. `(nav)`, `(h2)`) to each skip link. The tag is wrapped in `aria-hidden="true"` so screen readers hear only the clean label — the tag is purely for developer orientation
 - Logs a `console.warn` for each missing label, naming the element by tag and id
+- Appends the element type (e.g. `(nav)`, `(h2)`) visually to each skip link via an `aria-hidden` span — developers see it, screen readers do not
 
 **Example warning:**
 ```
