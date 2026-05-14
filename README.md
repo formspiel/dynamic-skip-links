@@ -117,7 +117,7 @@ The available properties and their defaults:
   navLabel: "Skip links",
 
   // text prepended to every skip link
-  labelPrefix: "Go to",
+  labelPrefix: "Skip to",
 
   // fallback labels for landmark elements that have no aria-label
   typeLabels: {
@@ -153,7 +153,7 @@ All user-facing strings are in the config, so translation requires no changes to
 <script>
   window.dynamicSkipLinksConfig = {
     navLabel:    "Seitennavigation",
-    labelPrefix: "Gehe zu",
+    labelPrefix: "Springe zu",
     typeLabels: {
       HEADER: "Seitenkopf",
       MAIN:   "Hauptinhalt",
@@ -165,6 +165,25 @@ All user-facing strings are in the config, so translation requires no changes to
 </script>
 <script src="dynamic-skip-links.js"></script>
 ```
+
+Suggested values for common languages:
+
+| Language | `navLabel` | `labelPrefix` | `noLabel` |
+|---|---|---|---|
+| English (default) | `"Skip links"` | `"Skip to"` | `"No label"` |
+| German | `"Seitennavigation"` | `"Springe zu"` | `"Kein Label"` |
+| French | `"Liens d'évitement"` | `"Passer à"` | `"Sans label"` |
+| Italian | `"Link di navigazione"` | `"Salta a"` | `"Nessuna etichetta"` |
+| Spanish | `"Saltar a"` | `"Saltar a"` | `"Sin etiqueta"` |
+
+The `typeLabels` for each language:
+
+| Language | `HEADER` | `MAIN` | `NAV` | `FORM` |
+|---|---|---|---|---|
+| German | `"Seitenkopf"` | `"Hauptinhalt"` | `"Navigation"` | `"Formular"` |
+| French | `"En-tête"` | `"Contenu principal"` | `"Navigation"` | `"Formulaire"` |
+| Italian | `"Intestazione"` | `"Contenuto principale"` | `"Navigazione"` | `"Modulo"` |
+| Spanish | `"Encabezado"` | `"Contenido principal"` | `"Navegación"` | `"Formulario"` |
 
 ---
 
@@ -178,6 +197,7 @@ Set `config.debug = true` during development to surface labelling problems befor
   - **Blue** — element has a valid label
   - **Orange** — label is missing; the skip link will fall back to *No label*
 - Logs a `console.warn` for each missing label, naming the element by tag and id
+- Appends the element type (e.g. `(nav)`, `(h2)`) visually to each skip link via an `aria-hidden` span — developers see it, screen readers do not
 
 **Example warning:**
 ```

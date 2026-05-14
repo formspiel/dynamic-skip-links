@@ -83,7 +83,7 @@ describe("nav injection", () => {
 describe("label resolution", () => {
   test("uses aria-label attribute (highest priority)", () => {
     loadModule(`<header aria-label="Site header"></header>`);
-    expect(getLinkTexts()).toEqual(["Go to Site header"]);
+    expect(getLinkTexts()).toEqual(["Skip to Site header"]);
   });
 
   test("uses text content of aria-labelledby target", () => {
@@ -91,7 +91,7 @@ describe("label resolution", () => {
       <span id="nav-heading">Main navigation</span>
       <nav aria-labelledby="nav-heading"></nav>
     `);
-    expect(getLinkTexts()).toEqual(["Go to Main navigation"]);
+    expect(getLinkTexts()).toEqual(["Skip to Main navigation"]);
   });
 
   test("aria-label takes precedence over aria-labelledby", () => {
@@ -99,53 +99,53 @@ describe("label resolution", () => {
       <span id="nav-heading">labelledby text</span>
       <nav aria-label="Direct label" aria-labelledby="nav-heading"></nav>
     `);
-    expect(getLinkTexts()).toEqual(["Go to Direct label"]);
+    expect(getLinkTexts()).toEqual(["Skip to Direct label"]);
   });
 
   test("uses heading text content for h1", () => {
     loadModule("<h1>Page Title</h1>");
-    expect(getLinkTexts()).toEqual(["Go to Page Title"]);
+    expect(getLinkTexts()).toEqual(["Skip to Page Title"]);
   });
 
   test("uses heading text content for h2", () => {
     loadModule("<h2>Section Name</h2>");
-    expect(getLinkTexts()).toEqual(["Go to Section Name"]);
+    expect(getLinkTexts()).toEqual(["Skip to Section Name"]);
   });
 
   test("falls back to typeLabel NAV when nav has no label", () => {
     loadModule("<nav>…</nav>");
-    expect(getLinkTexts()).toEqual(["Go to Navigation"]);
+    expect(getLinkTexts()).toEqual(["Skip to Navigation"]);
   });
 
   test("falls back to typeLabel HEADER when header has no label", () => {
     loadModule("<header>…</header>");
-    expect(getLinkTexts()).toEqual(["Go to Page header"]);
+    expect(getLinkTexts()).toEqual(["Skip to Page header"]);
   });
 
   test("falls back to typeLabel MAIN when main has no label", () => {
     loadModule("<main>…</main>");
-    expect(getLinkTexts()).toEqual(["Go to Main content"]);
+    expect(getLinkTexts()).toEqual(["Skip to Main content"]);
   });
 
   test("falls back to typeLabel FORM when form has no label", () => {
     loadModule("<form>…</form>");
-    expect(getLinkTexts()).toEqual(["Go to Form"]);
+    expect(getLinkTexts()).toEqual(["Skip to Form"]);
   });
 
   test("falls back to noLabel as last resort for unknown element types", () => {
     // <section> has no entry in typeLabels; noLabel is the final fallback
     loadModule("<section>…</section>", { selector: "section", noLabel: "Unlabelled" });
-    expect(getLinkTexts()).toEqual(["Go to Unlabelled"]);
+    expect(getLinkTexts()).toEqual(["Skip to Unlabelled"]);
   });
 
   test("uses custom noLabel string", () => {
     loadModule("<section>…</section>", { selector: "section", noLabel: "Kein Label" });
-    expect(getLinkTexts()).toEqual(["Go to Kein Label"]);
+    expect(getLinkTexts()).toEqual(["Skip to Kein Label"]);
   });
 
   test("uses custom typeLabels for a single key", () => {
     loadModule("<nav>…</nav>", { typeLabels: { NAV: "Navigation (Deutsch)" } });
-    expect(getLinkTexts()).toEqual(["Go to Navigation (Deutsch)"]);
+    expect(getLinkTexts()).toEqual(["Skip to Navigation (Deutsch)"]);
   });
 
   test("typeLabels partial override keeps unspecified defaults", () => {
@@ -154,13 +154,13 @@ describe("label resolution", () => {
       `<header>…</header><nav>…</nav>`,
       { typeLabels: { NAV: "Menu" } }
     );
-    expect(getLinkTexts()).toEqual(["Go to Page header", "Go to Menu"]);
+    expect(getLinkTexts()).toEqual(["Skip to Page header", "Skip to Menu"]);
   });
 
   test("does not use heading text for non-heading elements", () => {
     loadModule(`<nav>Some text inside</nav>`);
     // Must not read inner text; should fall back to typeLabel
-    expect(getLinkTexts()).toEqual(["Go to Navigation"]);
+    expect(getLinkTexts()).toEqual(["Skip to Navigation"]);
   });
 });
 
@@ -169,26 +169,26 @@ describe("label resolution", () => {
 describe("label truncation", () => {
   test("labels shorter than 60 chars are kept as-is", () => {
     loadModule(`<h1>Short</h1>`);
-    expect(getLinkTexts()[0]).toBe("Go to Short");
+    expect(getLinkTexts()[0]).toBe("Skip to Short");
   });
 
   test("labels exactly 60 chars are not trimmed and have no ellipsis", () => {
     const exactText = "B".repeat(60);
     loadModule(`<h1>${exactText}</h1>`);
-    expect(getLinkTexts()[0]).toBe("Go to " + "B".repeat(60));
+    expect(getLinkTexts()[0]).toBe("Skip to " + "B".repeat(60));
   });
 
   test("labels over 60 chars with no spaces get hard-cut at 60 with ellipsis", () => {
     const longText = "A".repeat(70);
     loadModule(`<h1>${longText}</h1>`);
-    expect(getLinkTexts()[0]).toBe("Go to " + "A".repeat(60) + "…");
+    expect(getLinkTexts()[0]).toBe("Skip to " + "A".repeat(60) + "…");
   });
 
   test("labels over 60 chars with spaces are truncated at word boundary with ellipsis", () => {
     // 63 chars: slice(0,60) ends mid-word "words" → truncates before it
     const text = "The quick brown fox jumps over the lazy dog and some more words";
     loadModule(`<h1>${text}</h1>`);
-    expect(getLinkTexts()[0]).toBe("Go to The quick brown fox jumps over the lazy dog and some more…");
+    expect(getLinkTexts()[0]).toBe("Skip to The quick brown fox jumps over the lazy dog and some more…");
   });
 });
 
@@ -245,9 +245,9 @@ describe("DOM modifications", () => {
 // ─── Link text ────────────────────────────────────────────────────────────────
 
 describe("link text", () => {
-  test("prefix defaults to 'Go to'", () => {
+  test("prefix defaults to 'Skip to'", () => {
     loadModule("<main>…</main>");
-    expect(getLinkTexts()[0]).toMatch(/^Go to /);
+    expect(getLinkTexts()[0]).toMatch(/^Skip to /);
   });
 
   test("uses custom labelPrefix", () => {
@@ -257,7 +257,7 @@ describe("link text", () => {
 
   test("link text is prefix + label when debug is off", () => {
     loadModule(`<nav aria-label="Main nav">…</nav>`);
-    expect(getLinkTexts()[0]).toBe("Go to Main nav");
+    expect(getLinkTexts()[0]).toBe("Skip to Main nav");
   });
 
   test("does not append tag name suffix when debug is off", () => {
@@ -310,14 +310,22 @@ describe("debug mode", () => {
     expect(console.warn.mock.calls[0][0]).toMatch(/id="primary-nav"/);
   });
 
-  test("link text includes tag name suffix in debug mode", () => {
+  test("type tag is in an aria-hidden span in debug mode (not in accessible name)", () => {
     loadModule(`<nav aria-label="Main nav">…</nav>`, { debug: true });
-    expect(getLinkTexts()[0]).toBe("Go to Main nav (nav)");
+    const a = getLinks()[0];
+    // Screen readers see only the text node — no tag suffix
+    expect(a.firstChild.textContent).toBe("Skip to Main nav");
+    // Visual display: type tag present in aria-hidden span
+    const typeSpan = a.querySelector('[aria-hidden="true"]');
+    expect(typeSpan).not.toBeNull();
+    expect(typeSpan.textContent).toBe(" (nav)");
   });
 
-  test("link text includes tag suffix for headings in debug mode", () => {
+  test("type tag for headings is aria-hidden in debug mode", () => {
     loadModule("<h1>Page Title</h1>", { debug: true });
-    expect(getLinkTexts()[0]).toBe("Go to Page Title (h1)");
+    const a = getLinks()[0];
+    expect(a.firstChild.textContent).toBe("Skip to Page Title");
+    expect(a.querySelector('[aria-hidden="true"]').textContent).toBe(" (h1)");
   });
 
   test("no data-dsl-debug attribute when debug is off", () => {
@@ -356,9 +364,9 @@ describe("multiple elements", () => {
       <nav aria-label="Gamma">…</nav>
     `);
     expect(getLinkTexts()).toEqual([
-      "Go to Alpha",
-      "Go to Beta",
-      "Go to Gamma",
+      "Skip to Alpha",
+      "Skip to Beta",
+      "Skip to Gamma",
     ]);
   });
 
@@ -387,7 +395,7 @@ describe("custom selector", () => {
     );
     const texts = getLinkTexts();
     expect(texts).toHaveLength(1);
-    expect(texts[0]).toBe("Go to A section");
+    expect(texts[0]).toBe("Skip to A section");
   });
 
   test("elements not matched by selector are ignored", () => {

@@ -21,7 +21,7 @@
     selector: "header, main, nav, form, h1, h2",
     debug: false,
     navLabel: "Skip links",
-    labelPrefix: "Go to",
+    labelPrefix: "Skip to",
     typeLabels: {
       HEADER: "Page header",
       MAIN:   "Main content",
@@ -108,9 +108,13 @@
 
       var a = document.createElement("a");
       a.href = "#" + element.id;
-      a.textContent = config.debug
-        ? config.labelPrefix + " " + label + " (" + element.tagName.toLowerCase() + ")"
-        : config.labelPrefix + " " + label;
+      a.appendChild(document.createTextNode(config.labelPrefix + " " + label));
+      if (config.debug) {
+        var typeTag = document.createElement("span");
+        typeTag.setAttribute("aria-hidden", "true");
+        typeTag.textContent = " (" + element.tagName.toLowerCase() + ")";
+        a.appendChild(typeTag);
+      }
 
       var li = document.createElement("li");
       li.appendChild(a);
